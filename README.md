@@ -295,7 +295,7 @@ They include vision models like `ViT`, `CLIP` and speech models like `Wav2Vec2` 
 </details>
 
 
-At present the following models are partly supported or not supported. 
+At present the following models are [partly supported or not supported](FAQ.md#q-why-are-some-models-not-supported). 
 
 <details> 
   <summary>Partly Supported Models</summary>
