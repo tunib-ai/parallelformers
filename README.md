@@ -87,7 +87,7 @@ outputs = model.generate(
 print(f"Output: {tokenizer.batch_decode(outputs)[0]}")
 ``` 
 ```
-Output: Parallelformers is an open-docs library for parallel programming ...
+Output: Parallelformers is an open-source library for parallel programming ...
 ```
 
 #### 4. Deploy the model to the server as usual. 
@@ -251,7 +251,6 @@ They include vision models like `ViT`, `CLIP` and speech models like `Wav2Vec2` 
 * DistilBERT
 * DPR (=BERT)
 * ELECTRA
-* ELECTRA
 * FlauBERT (=XLM)
 * FSMT
 * Funnel Transformer
@@ -296,7 +295,7 @@ They include vision models like `ViT`, `CLIP` and speech models like `Wav2Vec2` 
 </details>
 
 
-At present the following models are partly supported or not supported. 
+At present the following models are [partly supported or not supported](FAQ.md#q-why-are-some-models-not-supported). 
 
 <details> 
   <summary>Partly Supported Models</summary>
