@@ -1,5 +1,5 @@
 
-## FAQ
+# FAQ
 ### Q. Why doesn't the GPU usage decrease by exactly _n_ times when I parallelize on _n_ GPUs?
 
 There are three possible reasons. 
