@@ -219,8 +219,6 @@ GPU0 => 0.00GB
 
 GPU1 => 0.00GB
 ```
-#### 7. Write `Policy` class when new models are released.
-Refer to [POLICY.md](POLICY.md)
 
 ## Supported Models
 Currently, most models in Huggingface transformers are supported. All layers in the models listed below can be parallelized.
@@ -315,6 +313,9 @@ At present the following models are [partly supported or not supported](FAQ.md#q
 * RAG
   
 </details>
+
+## Advanced Usage
+Refer to [POLICY.md](POLICY.md)
 
 ## FAQ
 Refer to [FAQ.md](FAQ.md).
