@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 from contextlib import suppress
-from typing import Any, Dict, Iterable, List, Type, Union
+from typing import Any, Dict, Iterable, List, Type, Union, Optional, Tuple
 
 import torch.nn as nn
 from torch import Size, Tensor
@@ -24,7 +24,16 @@ from parallelformers.utils import rgetattr, rhasattr, rsetattr
 
 
 class TensorReplacer(object):
-    """Replace original Huggingface's layer into Megatron tensor sliced layer."""
+    r"""
+    Replace original Huggingface's layer into Megatron tensor sliced layer.
+
+    Args:
+        model (nn.Module): Huggingface pre-trained transformer model
+        mp_group (Any): process group for model parallelism
+        fp16: (bool): Whether use FP16 or not.
+        num_gpus (int): number of GPUs
+        custom_policies (Union[Policy, List[Policy]]): custom policy object (default=None)
+    """
 
     def __init__(
         self,
@@ -33,18 +42,7 @@ class TensorReplacer(object):
         fp16: bool,
         num_gpus: int,
         custom_policies: Union[Policy, List[Policy]],
-    ):
-        """
-        Constructor of TensorReplacer
-
-        Args:
-            model (nn.Module): Huggingface pre-trained transformer model
-            mp_group (Any): process group for model parallelism
-            fp16: (bool): Whether use FP16 or not.
-            num_gpus (int): number of GPUs
-            custom_policies (Union[Policy, List[Policy]]): custom policy object (default=None)
-        """
-
+    ) -> None:
         self.model = model
         self.config = model.config
         self.fp16 = fp16
@@ -60,7 +58,7 @@ class TensorReplacer(object):
         else:
             self.policies = None
 
-    def _auto_policy(self):
+    def auto_policy(self) -> Optional[List[Policy]]:
         """Find the proper policy for current model using AutoPolicy"""
 
         auto = AutoPolicy()
@@ -77,17 +75,17 @@ class TensorReplacer(object):
     def replace_modules(self):
         """Replace original huggingface layers to Megtraon tensor sliced layers"""
         if self.policies is None:
-            self.policies = self._auto_policy()
+            self.policies = self.auto_policy()
 
         for policy in self.policies:
-            self._replace_user_define_modules(self.model, policy)
-            self._replace_orig_to_megatron_modules(self.model, policy)
+            self.replace_user_define_modules(self.model, policy)
+            self.replace_orig_to_megatron_modules(self.model, policy)
 
-    def _replace_user_define_modules(
+    def replace_user_define_modules(
         self,
         model: nn.Module,
         policy_cls: Type[Policy],
-    ):
+    ) -> None:
         """
         Replace modules in the model by user defined policy
 
@@ -118,19 +116,22 @@ class TensorReplacer(object):
                                     rgetattr(cls, key),
                                 )
 
-            self._replace_user_define_modules(child, policy_cls)
+            self.replace_user_define_modules(child, policy_cls)
 
-    def _replace_orig_to_megatron_modules(
+    def replace_orig_to_megatron_modules(
         self,
         model: nn.Module,
         policy_cls: Type[Policy],
-    ):
+    ) -> nn.Module:
         """
         Replace original Huggingface layers to Megatron tensor sliced layers
 
         Args:
             model (nn.Module): model weight
             policy_cls (Type[Policy]): class of policy
+
+        Returns:
+            nn.Module: parallelized paramerters
         """
         for name, child in model.named_children():
             if child.__class__ == policy_cls.original_layer_class():
@@ -141,13 +142,13 @@ class TensorReplacer(object):
                     with suppress(Exception):
                         rsetattr(policy, f"{self.varname}.{k}", v)
 
-                rsetattr(model, name, self._make_megatron_layer(policy))
+                rsetattr(model, name, self.make_megatron_layer(policy))
 
-            self._replace_orig_to_megatron_modules(child, policy_cls)
+            self.replace_orig_to_megatron_modules(child, policy_cls)
 
         return model
 
-    def _preprocess(self, function_output: List[Layer], policy: Policy):
+    def preprocess(self, function_output: List[Layer], policy: Policy,) -> Tuple[Dict, Dict, Dict, Dict]:
         """
         Preprocess user's policy object to replace tensors
 
@@ -216,7 +217,7 @@ class TensorReplacer(object):
 
         return weight_dict, bias_dict, weight_attr_dict, bias_attr_dict
 
-    def _set_parameters(
+    def set_parameters(
         self,
         policy: Policy,
         weight_name: Dict[str, Tensor],
@@ -224,7 +225,7 @@ class TensorReplacer(object):
         weight_param: Dict[str, Tensor],
         bias_param: Dict[str, Tensor],
         suffix: str = "data",
-    ):
+    ) -> Policy:
         """
         Set sliced parameters into original model
 
@@ -241,7 +242,7 @@ class TensorReplacer(object):
         """
         for name, param in zip(weight_name, weight_param):
             rsetattr(policy, f"{name}.{suffix}", param)
-            self._set_layer_size(policy, name, param.size())
+            self.set_layer_size(policy, name, param.size())
 
         for name, param in zip(bias_name, bias_param):
             rsetattr(policy, f"{name}.{suffix}", param)
@@ -249,11 +250,11 @@ class TensorReplacer(object):
         return policy
 
     @staticmethod
-    def _set_layer_size(
+    def set_layer_size(
         policy: Policy,
         name: str,
         size: Size,
-    ):
+    ) -> None:
         """
         Apply resize layer size to original layer object
 
@@ -283,7 +284,7 @@ class TensorReplacer(object):
                             size[i],
                         )
 
-    def _make_megatron_layer(self, policy: Policy):
+    def make_megatron_layer(self, policy: Policy) -> nn.Module:
         """
         Make Megatron tensor sliced layers from original Huggingface layers by tensor slicing.
 
@@ -293,24 +294,24 @@ class TensorReplacer(object):
         Returns:
             nn.Module: sliced model layer
         """
-        attn_qkvw, attn_qkvb, attn_qkvw_attr, attn_qkvb_attr = self._preprocess(
+        attn_qkvw, attn_qkvb, attn_qkvw_attr, attn_qkvb_attr = self.preprocess(
             policy.attn_qkv(),
             policy,
         )
-        attn_outw, attn_outb, attn_outw_attr, attn_outb_attr = self._preprocess(
+        attn_outw, attn_outb, attn_outw_attr, attn_outb_attr = self.preprocess(
             policy.attn_out(),
             policy,
         )
-        mlp_inw, mlp_inb, mlp_inw_attr, mlp_inb_attr = self._preprocess(
+        mlp_inw, mlp_inb, mlp_inw_attr, mlp_inb_attr = self.preprocess(
             policy.mlp_in(),
             policy,
         )
-        mlp_outw, mlp_outb, mlp_outw_attr, mlp_outb_attr = self._preprocess(
+        mlp_outw, mlp_outb, mlp_outw_attr, mlp_outb_attr = self.preprocess(
             policy.mlp_out(),
             policy,
         )
 
-        policy = self._set_parameters(
+        policy = self.set_parameters(
             policy,
             attn_qkvw,
             attn_qkvb,
@@ -320,7 +321,7 @@ class TensorReplacer(object):
             ),
         )
 
-        policy = self._set_parameters(
+        policy = self.set_parameters(
             policy,
             attn_outw,
             attn_outb,
@@ -330,7 +331,7 @@ class TensorReplacer(object):
             ),
         )
 
-        policy = self._set_parameters(
+        policy = self.set_parameters(
             policy,
             mlp_inw,
             mlp_inb,
@@ -340,7 +341,7 @@ class TensorReplacer(object):
             ),
         )
 
-        policy = self._set_parameters(
+        policy = self.set_parameters(
             policy,
             mlp_outw,
             mlp_outb,

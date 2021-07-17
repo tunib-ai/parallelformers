@@ -1,0 +1,377 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Tensor Replacer &mdash; parallelformers 1.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Tensor Slicer" href="Slicing.html" />
+    <link rel="prev" title="Parallel Process" href="Process.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> parallelformers
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">Intro</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../intro/INTRO.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/SUPPORTED_MODELS.html">Supported Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/POLICY.html">Policy Class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/FAQ.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/CONTRIBUTING.html">Contributing to Parallelformers</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Parallelize</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../parallelize/Parallelize.html">Parallelize</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Parallel modules</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Engine.html">Parallel Engine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Process.html">Parallel Process</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Tensor Replacer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Slicing.html">Tensor Slicer</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Policy modules</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../policy/Auto.html">Auto Policy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../policy/Policy.html">Policy</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Utils</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../utils/Attr_utils.html">Attribute Utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/Dist_utils.html">Distributed Utils</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">parallelformers</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Tensor Replacer</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/parallel/Replacing.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-parallelformers.parallel.replacing">
+<span id="tensor-replacer"></span><h1>Tensor Replacer<a class="headerlink" href="#module-parallelformers.parallel.replacing" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="parallelformers.parallel.replacing.TensorReplacer">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">parallelformers.parallel.replacing.</span></span><span class="sig-name descname"><span class="pre">TensorReplacer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.nn.modules.module.Module</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mp_group</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fp16</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_gpus</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_policies</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../policy/Policy.html#parallelformers.policies.base.policy.Policy" title="parallelformers.policies.base.policy.Policy"><span class="pre">parallelformers.policies.base.policy.Policy</span></a><span class="p"><span class="pre">,</span> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../policy/Policy.html#parallelformers.policies.base.policy.Policy" title="parallelformers.policies.base.policy.Policy"><span class="pre">parallelformers.policies.base.policy.Policy</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/parallelformers/parallel/replacing.html#TensorReplacer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parallelformers.parallel.replacing.TensorReplacer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Replace original Huggingface’s layer into Megatron tensor sliced layer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<em>nn.Module</em>) – Huggingface pre-trained transformer model</p></li>
+<li><p><strong>mp_group</strong> (<em>Any</em>) – process group for model parallelism</p></li>
+<li><p><strong>fp16</strong> – (bool): Whether use FP16 or not.</p></li>
+<li><p><strong>num_gpus</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – number of GPUs</p></li>
+<li><p><strong>custom_policies</strong> (<em>Union</em><em>[</em><a class="reference internal" href="../policy/Policy.html#parallelformers.policies.base.policy.Policy" title="parallelformers.policies.base.policy.Policy"><em>Policy</em></a><em>, </em><em>List</em><em>[</em><a class="reference internal" href="../policy/Policy.html#parallelformers.policies.base.policy.Policy" title="parallelformers.policies.base.policy.Policy"><em>Policy</em></a><em>]</em><em>]</em>) – custom policy object (default=None)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="parallelformers.parallel.replacing.TensorReplacer.auto_policy">
+<span class="sig-name descname"><span class="pre">auto_policy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../policy/Policy.html#parallelformers.policies.base.policy.Policy" title="parallelformers.policies.base.policy.Policy"><span class="pre">parallelformers.policies.base.policy.Policy</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/parallelformers/parallel/replacing.html#TensorReplacer.auto_policy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parallelformers.parallel.replacing.TensorReplacer.auto_policy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the proper policy for current model using AutoPolicy</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parallelformers.parallel.replacing.TensorReplacer.replace_modules">
+<span class="sig-name descname"><span class="pre">replace_modules</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/parallelformers/parallel/replacing.html#TensorReplacer.replace_modules"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parallelformers.parallel.replacing.TensorReplacer.replace_modules" title="Permalink to this definition">¶</a></dt>
+<dd><p>Replace original huggingface layers to Megtraon tensor sliced layers</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parallelformers.parallel.replacing.TensorReplacer.replace_user_define_modules">
+<span class="sig-name descname"><span class="pre">replace_user_define_modules</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.nn.modules.module.Module</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">policy_cls</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../policy/Policy.html#parallelformers.policies.base.policy.Policy" title="parallelformers.policies.base.policy.Policy"><span class="pre">parallelformers.policies.base.policy.Policy</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/parallelformers/parallel/replacing.html#TensorReplacer.replace_user_define_modules"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parallelformers.parallel.replacing.TensorReplacer.replace_user_define_modules" title="Permalink to this definition">¶</a></dt>
+<dd><p>Replace modules in the model by user defined policy</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<em>nn.Module</em>) – model weight</p></li>
+<li><p><strong>policy_cls</strong> (<em>Type</em><em>[</em><a class="reference internal" href="../policy/Policy.html#parallelformers.policies.base.policy.Policy" title="parallelformers.policies.base.policy.Policy"><em>Policy</em></a><em>]</em>) – class of policy</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parallelformers.parallel.replacing.TensorReplacer.replace_orig_to_megatron_modules">
+<span class="sig-name descname"><span class="pre">replace_orig_to_megatron_modules</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.nn.modules.module.Module</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">policy_cls</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../policy/Policy.html#parallelformers.policies.base.policy.Policy" title="parallelformers.policies.base.policy.Policy"><span class="pre">parallelformers.policies.base.policy.Policy</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">torch.nn.modules.module.Module</span></span></span><a class="reference internal" href="../_modules/parallelformers/parallel/replacing.html#TensorReplacer.replace_orig_to_megatron_modules"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parallelformers.parallel.replacing.TensorReplacer.replace_orig_to_megatron_modules" title="Permalink to this definition">¶</a></dt>
+<dd><p>Replace original Huggingface layers to Megatron tensor sliced layers</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<em>nn.Module</em>) – model weight</p></li>
+<li><p><strong>policy_cls</strong> (<em>Type</em><em>[</em><a class="reference internal" href="../policy/Policy.html#parallelformers.policies.base.policy.Policy" title="parallelformers.policies.base.policy.Policy"><em>Policy</em></a><em>]</em>) – class of policy</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>parallelized paramerters</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>nn.Module</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parallelformers.parallel.replacing.TensorReplacer.preprocess">
+<span class="sig-name descname"><span class="pre">preprocess</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">function_output</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../policy/Policy.html#parallelformers.policies.base.policy.Layer" title="parallelformers.policies.base.policy.Layer"><span class="pre">parallelformers.policies.base.policy.Layer</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">policy</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="../policy/Policy.html#parallelformers.policies.base.policy.Policy" title="parallelformers.policies.base.policy.Policy"><span class="pre">parallelformers.policies.base.policy.Policy</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">,</span> </span><span class="pre">Dict</span><span class="p"><span class="pre">,</span> </span><span class="pre">Dict</span><span class="p"><span class="pre">,</span> </span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/parallelformers/parallel/replacing.html#TensorReplacer.preprocess"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parallelformers.parallel.replacing.TensorReplacer.preprocess" title="Permalink to this definition">¶</a></dt>
+<dd><p>Preprocess user’s policy object to replace tensors</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>function_output</strong> (<em>List</em><em>[</em><a class="reference internal" href="../policy/Policy.html#parallelformers.policies.base.policy.Layer" title="parallelformers.policies.base.policy.Layer"><em>Layer</em></a><em>]</em>) – list of layers in the policy object</p></li>
+<li><p><strong>policy</strong> (<a class="reference internal" href="../policy/Policy.html#parallelformers.policies.base.policy.Policy" title="parallelformers.policies.base.policy.Policy"><em>Policy</em></a>) – policy object</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Tuple of dictionaries of parameters and attributes required for tensor slicing</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Tuple[Dict, Dict, Dict, Dict]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parallelformers.parallel.replacing.TensorReplacer.set_parameters">
+<span class="sig-name descname"><span class="pre">set_parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">policy</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="../policy/Policy.html#parallelformers.policies.base.policy.Policy" title="parallelformers.policies.base.policy.Policy"><span class="pre">parallelformers.policies.base.policy.Policy</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">weight_name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span> </span><a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (1.10.0a0+gitd4adc41 ))"><span class="pre">torch.Tensor</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bias_name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span> </span><a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (1.10.0a0+gitd4adc41 ))"><span class="pre">torch.Tensor</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weight_param</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span> </span><a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (1.10.0a0+gitd4adc41 ))"><span class="pre">torch.Tensor</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bias_param</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span> </span><a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (1.10.0a0+gitd4adc41 ))"><span class="pre">torch.Tensor</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">suffix</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><span class="pre">str</span></a></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'data'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../policy/Policy.html#parallelformers.policies.base.policy.Policy" title="parallelformers.policies.base.policy.Policy"><span class="pre">parallelformers.policies.base.policy.Policy</span></a></span></span><a class="reference internal" href="../_modules/parallelformers/parallel/replacing.html#TensorReplacer.set_parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parallelformers.parallel.replacing.TensorReplacer.set_parameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set sliced parameters into original model</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>policy</strong> (<a class="reference internal" href="../policy/Policy.html#parallelformers.policies.base.policy.Policy" title="parallelformers.policies.base.policy.Policy"><em>Policy</em></a>) – policy object</p></li>
+<li><p><strong>weight_name</strong> (<em>Tuple</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>]</em>) – names of layer’s weight</p></li>
+<li><p><strong>bias_name</strong> (<em>Tuple</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>]</em>) – names of layer’s bias</p></li>
+<li><p><strong>weight_param</strong> (<em>Tuple</em><em>[</em><em>Tensor</em><em>]</em>) – parameters of sliced weight</p></li>
+<li><p><strong>bias_param</strong> (<em>Tuple</em><em>[</em><em>Tensor</em><em>]</em>) – parameters of sliced bias</p></li>
+<li><p><strong>suffix</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – name of suffix in the parameters</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>policy object</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="../policy/Policy.html#parallelformers.policies.base.policy.Policy" title="parallelformers.policies.base.policy.Policy">Policy</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parallelformers.parallel.replacing.TensorReplacer.set_layer_size">
+<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">set_layer_size</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">policy</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="../policy/Policy.html#parallelformers.policies.base.policy.Policy" title="parallelformers.policies.base.policy.Policy"><span class="pre">parallelformers.policies.base.policy.Policy</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.Size</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/parallelformers/parallel/replacing.html#TensorReplacer.set_layer_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parallelformers.parallel.replacing.TensorReplacer.set_layer_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply resize layer size to original layer object</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>policy</strong> (<a class="reference internal" href="../policy/Policy.html#parallelformers.policies.base.policy.Policy" title="parallelformers.policies.base.policy.Policy"><em>Policy</em></a>) – policy object</p></li>
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – name of parameters</p></li>
+<li><p><strong>size</strong> (<em>Size</em>) – size of resized parameters</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parallelformers.parallel.replacing.TensorReplacer.make_megatron_layer">
+<span class="sig-name descname"><span class="pre">make_megatron_layer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">policy</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="../policy/Policy.html#parallelformers.policies.base.policy.Policy" title="parallelformers.policies.base.policy.Policy"><span class="pre">parallelformers.policies.base.policy.Policy</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">torch.nn.modules.module.Module</span></span></span><a class="reference internal" href="../_modules/parallelformers/parallel/replacing.html#TensorReplacer.make_megatron_layer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parallelformers.parallel.replacing.TensorReplacer.make_megatron_layer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make Megatron tensor sliced layers from original Huggingface layers by tensor slicing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>policy</strong> (<a class="reference internal" href="../policy/Policy.html#parallelformers.policies.base.policy.Policy" title="parallelformers.policies.base.policy.Policy"><em>Policy</em></a>) – policy object</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>sliced model layer</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>nn.Module</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="Slicing.html" class="btn btn-neutral float-right" title="Tensor Slicer" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="Process.html" class="btn btn-neutral float-left" title="Parallel Process" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, TUNiB Inc.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

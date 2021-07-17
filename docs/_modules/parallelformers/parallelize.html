@@ -1,0 +1,609 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>parallelformers.parallelize &mdash; parallelformers 1.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> parallelformers
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">Intro</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro/INTRO.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro/SUPPORTED_MODELS.html">Supported Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro/POLICY.html">Policy Class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro/FAQ.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro/CONTRIBUTING.html">Contributing to Parallelformers</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Parallelize</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../parallelize/Parallelize.html">Parallelize</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Parallel modules</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../parallel/Engine.html">Parallel Engine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../parallel/Process.html">Parallel Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../parallel/Replacing.html">Tensor Replacer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../parallel/Slicing.html">Tensor Slicer</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Policy modules</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../policy/Auto.html">Auto Policy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../policy/Policy.html">Policy</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Utils</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../utils/Attr_utils.html">Attribute Utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utils/Dist_utils.html">Distributed Utils</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">parallelformers</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>parallelformers.parallelize</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for parallelformers.parallelize</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Copyright 2021 TUNiB inc.</span>
+<span class="c1">#</span>
+<span class="c1"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1"># you may not use this file except in compliance with the License.</span>
+<span class="c1"># You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1"># http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1"># Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1"># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1"># See the License for the specific language governing permissions and</span>
+<span class="c1"># limitations under the License.</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">traceback</span>
+<span class="kn">from</span> <span class="nn">contextlib</span> <span class="kn">import</span> <span class="n">suppress</span>
+<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">_is_dataclass_instance</span>
+
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torch.multiprocessing</span> <span class="k">as</span> <span class="nn">mp</span>
+<span class="kn">from</span> <span class="nn">dacite</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Config</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">from_dict</span>
+<span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">nn</span>
+<span class="kn">from</span> <span class="nn">transformers.file_utils</span> <span class="kn">import</span> <span class="n">ModelOutput</span>
+
+<span class="kn">from</span> <span class="nn">parallelformers.parallel.process</span> <span class="kn">import</span> <span class="n">ParallelProcess</span>
+<span class="kn">from</span> <span class="nn">parallelformers.utils</span> <span class="kn">import</span> <span class="n">rgetattr</span><span class="p">,</span> <span class="n">rsetattr</span>
+
+
+<div class="viewcode-block" id="parallelize"><a class="viewcode-back" href="../../parallelize/Parallelize.html#parallelformers.parallelize.parallelize">[docs]</a><span class="k">class</span> <span class="nc">parallelize</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parallelformers end-point function</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        model (nn.Module): Huggingface pre-trained transformer model.</span>
+<span class="sd">        fp16: (bool): whether use FP16 or not.</span>
+<span class="sd">        num_gpus (int): number of GPU for parallelization.</span>
+<span class="sd">        master_addr (str): master process address for process communication (default=&#39;127.0.0.1&#39;)</span>
+<span class="sd">        master_port (int): master process port for process communication (default=29500)</span>
+<span class="sd">        backend (str): distributed backend (default=&#39;nccl&#39;)</span>
+<span class="sd">        verbose (bool): logging current gpu states (one of [&#39;detail&#39;, &#39;simple&#39;, None]</span>
+<span class="sd">        init_method (str): multiprocess initialization method. (It is safe to set `init_method` to `spawn`.)</span>
+<span class="sd">        daemon (bool): whether make process daemon or not (default=True)</span>
+
+<span class="sd">    Notes:</span>
+<span class="sd">        We want to use this object as a simple function rather than a class.</span>
+<span class="sd">        So we broke the PEP8 rules and set class names that start with a lowercase letter.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; # 1. Import Huggingface and Parallelformers modules</span>
+<span class="sd">        &gt;&gt;&gt; from transformers import AutoModelForCausalLM, AutoTokenizer</span>
+<span class="sd">        &gt;&gt;&gt; from parallelformers import parallelize</span>
+
+<span class="sd">        &gt;&gt;&gt; # 2. Create Huggingface model and tokenizer.</span>
+<span class="sd">        &gt;&gt;&gt; model = AutoModelForCausalLM.from_pretrained(&quot;EleutherAI/gpt-neo-2.7B&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; tokenizer = AutoTokenizer.from_pretrained(&quot;EleutherAI/gpt-neo-2.7B&quot;)</span>
+
+<span class="sd">        &gt;&gt;&gt; # 3. Parallelize using Parallelformers.</span>
+<span class="sd">        &gt;&gt;&gt; parallelize(model, num_gpus=4, fp16=True)</span>
+
+<span class="sd">        &gt;&gt;&gt; # 4. Do inference as usual.</span>
+<span class="sd">        &gt;&gt;&gt; inputs = tokenizer(&quot;Parallelformers is&quot;, return_tensors=&quot;pt&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; outputs = model.generate(**inputs, num_beams=5, no_repeat_ngram_size=4)</span>
+<span class="sd">        &gt;&gt;&gt; print(f&quot;Output: {tokenizer.batch_decode(outputs)[0]}&quot;)</span>
+<span class="sd">        &#39;Output: Parallelformers is an open-source library for parallel programming ...&#39;</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">model</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span>
+        <span class="n">fp16</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+        <span class="n">num_gpus</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">custom_policies</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">master_addr</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;127.0.0.1&quot;</span><span class="p">,</span>
+        <span class="n">master_port</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">29500</span><span class="p">,</span>
+        <span class="n">backend</span><span class="o">=</span><span class="s2">&quot;nccl&quot;</span><span class="p">,</span>
+        <span class="n">verbose</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">init_method</span><span class="o">=</span><span class="s2">&quot;spawn&quot;</span><span class="p">,</span>
+        <span class="n">daemon</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">init_environments</span><span class="p">(</span>
+            <span class="n">num_gpus</span><span class="p">,</span>
+            <span class="n">master_addr</span><span class="p">,</span>
+            <span class="n">master_port</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Using fork often leads to deadlock.</span>
+        <span class="k">if</span> <span class="n">mp</span><span class="o">.</span><span class="n">get_start_method</span><span class="p">()</span> <span class="o">!=</span> <span class="n">init_method</span><span class="p">:</span>
+            <span class="k">with</span> <span class="n">suppress</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+                <span class="n">mp</span><span class="o">.</span><span class="n">set_start_method</span><span class="p">(</span><span class="n">init_method</span><span class="p">,</span> <span class="n">force</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">():</span>
+            <span class="n">param</span><span class="o">.</span><span class="n">requires_grad</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="n">param</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">preprocess_for_wav2vec</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">half</span><span class="p">()</span> <span class="k">if</span> <span class="n">fp16</span> <span class="k">else</span> <span class="n">model</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fp16</span> <span class="o">=</span> <span class="n">fp16</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_gpus</span> <span class="o">=</span> <span class="n">num_gpus</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">backend</span> <span class="o">=</span> <span class="n">backend</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">daemon</span> <span class="o">=</span> <span class="n">daemon</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">custom_policies</span> <span class="o">=</span> <span class="n">custom_policies</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">processes</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parallel_mutexes</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inference_mutexes</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inputs_queues</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">outputs_queues</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">orig_methods</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="n">hijack_methods</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;generate&quot;</span><span class="p">,</span> <span class="s2">&quot;forward&quot;</span><span class="p">,</span> <span class="s2">&quot;to&quot;</span><span class="p">,</span> <span class="s2">&quot;cpu&quot;</span><span class="p">,</span> <span class="s2">&quot;cuda&quot;</span><span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">hijack_methods</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="n">attr</span><span class="p">):</span>
+                <span class="n">fn</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">orig_methods</span><span class="p">[</span><span class="n">attr</span><span class="p">]</span> <span class="o">=</span> <span class="n">fn</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">parallelize</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">hijack_methods</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="n">attr</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">register_hijack_methods</span><span class="p">(</span><span class="n">attr</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_memory_logger</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;memory_reserved&quot;</span><span class="p">,</span> <span class="s2">&quot;memory_allocated&quot;</span><span class="p">,</span> <span class="s2">&quot;memory_cached&quot;</span><span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_memory_logger</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">register_memory_methods</span><span class="p">(</span><span class="n">attr</span><span class="p">)</span>
+
+<div class="viewcode-block" id="parallelize.preprocess_for_wav2vec"><a class="viewcode-back" href="../../parallelize/Parallelize.html#parallelformers.parallelize.parallelize.preprocess_for_wav2vec">[docs]</a>    <span class="k">def</span> <span class="nf">preprocess_for_wav2vec</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        There is one missing parameter in the Huggingface Wav2Vec model,</span>
+<span class="sd">        and the user loses control over this parameter, making parallelization impossible.</span>
+
+<span class="sd">        To use multiprocessing, if `requries_grad` is `True`, it must be a leaf tensor,</span>
+<span class="sd">        but this tensor (`conv.weight`) does not follow this rule, so multiprocessing becomes impossible.</span>
+<span class="sd">        Therefore, we detach this parameter to enable multiprocessing.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            model (nn.Module): model weight</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">with</span> <span class="n">suppress</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+            <span class="kn">from</span> <span class="nn">transformers.models.hubert.modeling_hubert</span> <span class="kn">import</span> <span class="p">(</span>
+                <span class="n">HubertPositionalConvEmbedding</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="kn">from</span> <span class="nn">transformers.models.wav2vec2.modeling_wav2vec2</span> <span class="kn">import</span> <span class="p">(</span>
+                <span class="n">Wav2Vec2PositionalConvEmbedding</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">named_children</span><span class="p">():</span>
+                <span class="n">layer_object</span> <span class="o">=</span> <span class="n">child</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+                <span class="k">if</span> <span class="n">layer_object</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">in</span> <span class="p">[</span>
+                    <span class="n">Wav2Vec2PositionalConvEmbedding</span><span class="p">,</span>
+                    <span class="n">HubertPositionalConvEmbedding</span><span class="p">,</span>
+                <span class="p">]:</span>
+                    <span class="n">detached_parameter</span> <span class="o">=</span> <span class="n">rgetattr</span><span class="p">(</span><span class="n">layer_object</span><span class="p">,</span> <span class="s2">&quot;conv.weight&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span>
+                    <span class="n">rsetattr</span><span class="p">(</span><span class="n">layer_object</span><span class="p">,</span> <span class="s2">&quot;conv.weight&quot;</span><span class="p">,</span> <span class="n">detached_parameter</span><span class="p">)</span>
+
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">preprocess_for_wav2vec</span><span class="p">(</span><span class="n">layer_object</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="parallelize.init_environments"><a class="viewcode-back" href="../../parallelize/Parallelize.html#parallelformers.parallelize.parallelize.init_environments">[docs]</a>    <span class="k">def</span> <span class="nf">init_environments</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">num_gpus</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">master_addr</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">master_port</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize environment variables</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            num_gpus (int): number of GPU for parallelization.</span>
+<span class="sd">            master_addr (str): master process address for process communication</span>
+<span class="sd">            master_port (int): master process port for process communication</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;TOKENIZERS_PARALLELISM&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;true&quot;</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;MKL_SERVICE_FORCE_INTEL&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;GNU&quot;</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;MASTER_ADDR&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">master_addr</span><span class="p">)</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;MASTER_PORT&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">master_port</span><span class="p">)</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;WORLD_SIZE&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">num_gpus</span><span class="p">)</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;CUDA_VISIBLE_DEVICES&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+            <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_gpus</span><span class="p">)]</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="parallelize.register_hijack_methods"><a class="viewcode-back" href="../../parallelize/Parallelize.html#parallelformers.parallelize.parallelize.register_hijack_methods">[docs]</a>    <span class="k">def</span> <span class="nf">register_hijack_methods</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">method</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Intercept the flow by changing some methods (e.g. forward, generate, ...)</span>
+<span class="sd">        in the model to `self.hijack` methods.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            method (str): name of method</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="nb">setattr</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span>
+            <span class="n">method</span><span class="p">,</span>
+            <span class="k">lambda</span> <span class="o">*</span><span class="n">inputs</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">hijack</span><span class="p">(</span>
+                <span class="n">inputs</span><span class="o">=</span><span class="n">inputs</span><span class="p">,</span>
+                <span class="n">kwargs</span><span class="o">=</span><span class="n">kwargs</span><span class="p">,</span>
+                <span class="n">func</span><span class="o">=</span><span class="n">method</span><span class="p">,</span>
+            <span class="p">),</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="parallelize.register_memory_methods"><a class="viewcode-back" href="../../parallelize/Parallelize.html#parallelformers.parallelize.parallelize.register_memory_methods">[docs]</a>    <span class="k">def</span> <span class="nf">register_memory_methods</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">method</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add several methods to check GPU occupancy status of models located in other process.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            method (str): name of method</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="nb">setattr</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span>
+            <span class="n">method</span><span class="p">,</span>
+            <span class="k">lambda</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">hijack</span><span class="p">(</span>
+                <span class="n">inputs</span><span class="o">=</span><span class="s2">&quot;dummy&quot;</span><span class="p">,</span>
+                <span class="n">kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;dummy&quot;</span><span class="p">:</span> <span class="s2">&quot;dummy&quot;</span><span class="p">},</span>
+                <span class="n">func</span><span class="o">=</span><span class="n">method</span><span class="p">,</span>
+            <span class="p">),</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="parallelize.deparallelize"><a class="viewcode-back" href="../../parallelize/Parallelize.html#parallelformers.parallelize.parallelize.deparallelize">[docs]</a>    <span class="k">def</span> <span class="nf">deparallelize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Remove all methods registered in the model</span>
+<span class="sd">        and join all GPU processes to main process.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;orig_methods&quot;</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">orig_methods</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;_memory_logger&quot;</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_memory_logger</span><span class="p">:</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;processes&quot;</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">process</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">processes</span><span class="p">:</span>
+                <span class="n">process</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+
+        <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">empty_cache</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="parallelize.parallelize"><a class="viewcode-back" href="../../parallelize/Parallelize.html#parallelformers.parallelize.parallelize.parallelize">[docs]</a>    <span class="nd">@torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">parallelize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Create processes for model parallelization and parallel inference&quot;&quot;&quot;</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">rank</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_gpus</span><span class="p">):</span>
+                <span class="n">parallel_mutex</span> <span class="o">=</span> <span class="n">mp</span><span class="o">.</span><span class="n">Event</span><span class="p">()</span>
+                <span class="n">inference_mutex</span> <span class="o">=</span> <span class="n">mp</span><span class="o">.</span><span class="n">Event</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">parallel_mutexes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">parallel_mutex</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">inference_mutexes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">inference_mutex</span><span class="p">)</span>
+
+                <span class="n">inputs_queue</span> <span class="o">=</span> <span class="n">mp</span><span class="o">.</span><span class="n">Queue</span><span class="p">()</span>
+                <span class="n">outputs_queue</span> <span class="o">=</span> <span class="n">mp</span><span class="o">.</span><span class="n">Queue</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">inputs_queues</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">inputs_queue</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">outputs_queues</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">outputs_queue</span><span class="p">)</span>
+
+                <span class="n">process</span> <span class="o">=</span> <span class="n">ParallelProcess</span><span class="p">(</span>
+                    <span class="n">rank</span><span class="o">=</span><span class="n">rank</span><span class="p">,</span>
+                    <span class="n">model</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span>
+                    <span class="n">fp16</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">fp16</span><span class="p">,</span>
+                    <span class="n">num_gpus</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">num_gpus</span><span class="p">,</span>
+                    <span class="n">inputs_queue</span><span class="o">=</span><span class="n">inputs_queue</span><span class="p">,</span>
+                    <span class="n">outputs_queue</span><span class="o">=</span><span class="n">outputs_queue</span><span class="p">,</span>
+                    <span class="n">parallel_mutex</span><span class="o">=</span><span class="n">parallel_mutex</span><span class="p">,</span>
+                    <span class="n">inference_mutex</span><span class="o">=</span><span class="n">inference_mutex</span><span class="p">,</span>
+                    <span class="n">backend</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">backend</span><span class="p">,</span>
+                    <span class="n">verbose</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">,</span>
+                    <span class="n">custom_policies</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">custom_policies</span><span class="p">,</span>
+                <span class="p">)</span>
+
+                <span class="n">process</span><span class="o">.</span><span class="n">daemon</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">daemon</span>
+                <span class="c1"># When the main process done, all processes should frees resources.</span>
+                <span class="c1"># So default value is True, but change it according to your needs.</span>
+
+                <span class="n">process</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">processes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">process</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">p_mutex</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">parallel_mutexes</span><span class="p">:</span>
+                <span class="n">p_mutex</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+
+        <span class="k">except</span> <span class="ne">BaseException</span><span class="p">:</span>
+            <span class="n">traceback</span><span class="o">.</span><span class="n">print_exc</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">deparallelize</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="parallelize.hijack"><a class="viewcode-back" href="../../parallelize/Parallelize.html#parallelformers.parallelize.parallelize.hijack">[docs]</a>    <span class="nd">@torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">hijack</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">inputs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+        <span class="n">kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
+        <span class="n">func</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Transfers the input passed to the main process to another process,</span>
+<span class="sd">        and transfers the output to the main process and outputs it to the user.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            inputs (Any): inputs of model</span>
+<span class="sd">            kwargs (Dict): arguments of model</span>
+<span class="sd">            func (str): name of method that hijacked</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Any: outputs of model</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i_mutex</span><span class="p">,</span> <span class="n">i_queue</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">inference_mutexes</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">inputs_queues</span><span class="p">,</span>
+            <span class="p">):</span>
+                <span class="n">i_queue</span><span class="o">.</span><span class="n">put</span><span class="p">((</span><span class="n">inputs</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">,</span> <span class="n">func</span><span class="p">))</span>
+                <span class="n">i_mutex</span><span class="o">.</span><span class="n">set</span><span class="p">()</span>
+                <span class="c1"># producer part</span>
+
+            <span class="k">if</span> <span class="n">func</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;to&quot;</span><span class="p">,</span> <span class="s2">&quot;cpu&quot;</span><span class="p">,</span> <span class="s2">&quot;cuda&quot;</span><span class="p">]:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">deparallelize</span><span class="p">()</span>
+
+                <span class="k">if</span> <span class="n">func</span> <span class="o">==</span> <span class="s2">&quot;cpu&quot;</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">cpu</span><span class="p">(</span><span class="o">*</span><span class="n">inputs</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">func</span> <span class="o">==</span> <span class="s2">&quot;cuda&quot;</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">cuda</span><span class="p">(</span><span class="o">*</span><span class="n">inputs</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="o">*</span><span class="n">inputs</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">outputs</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">for</span> <span class="n">o_queue</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">outputs_queues</span><span class="p">:</span>
+                    <span class="n">output</span> <span class="o">=</span> <span class="n">o_queue</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+                    <span class="c1"># consumer part</span>
+
+                    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">ModelOutput</span><span class="p">)</span> <span class="ow">or</span> <span class="n">_is_dataclass_instance</span><span class="p">(</span>
+                        <span class="n">output</span>
+                    <span class="p">):</span>
+                        <span class="n">_output</span> <span class="o">=</span> <span class="n">output</span>
+                    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                        <span class="n">_output</span> <span class="o">=</span> <span class="p">[]</span>
+                        <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">output</span><span class="p">:</span>
+                            <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">is_tensor</span><span class="p">(</span><span class="n">o</span><span class="p">):</span>
+                                <span class="n">o</span> <span class="o">=</span> <span class="n">o</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s2">&quot;cpu&quot;</span><span class="p">)</span>
+                            <span class="n">_output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">o</span><span class="p">)</span>
+                    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                        <span class="n">_output</span> <span class="o">=</span> <span class="p">{}</span>
+                        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">output</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                            <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">is_tensor</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
+                                <span class="n">v</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s2">&quot;cpu&quot;</span><span class="p">)</span>
+                            <span class="n">_output</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">_output</span> <span class="o">=</span> <span class="n">output</span>
+                        <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">is_tensor</span><span class="p">(</span><span class="n">output</span><span class="p">):</span>
+                            <span class="n">_output</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s2">&quot;cpu&quot;</span><span class="p">)</span>
+
+                    <span class="k">del</span> <span class="n">output</span>
+                    <span class="n">outputs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_output</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="n">func</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_memory_logger</span><span class="p">:</span>
+                    <span class="n">final_output</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">outputs</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">final_output</span> <span class="o">=</span> <span class="n">outputs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+                <span class="c1"># non-picklable object to original dataclass</span>
+                <span class="k">if</span> <span class="p">(</span>
+                    <span class="nb">isinstance</span><span class="p">(</span><span class="n">final_output</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span>
+                    <span class="ow">and</span> <span class="s2">&quot;orig_dataclass_type&quot;</span> <span class="ow">in</span> <span class="n">final_output</span>
+                <span class="p">):</span>
+                    <span class="n">orig_dataclass_type</span> <span class="o">=</span> <span class="n">final_output</span><span class="p">[</span><span class="s2">&quot;orig_dataclass_type&quot;</span><span class="p">]</span>
+                    <span class="k">del</span> <span class="n">final_output</span><span class="p">[</span><span class="s2">&quot;orig_dataclass_type&quot;</span><span class="p">]</span>
+
+                    <span class="n">final_output</span> <span class="o">=</span> <span class="n">from_dict</span><span class="p">(</span>
+                        <span class="n">orig_dataclass_type</span><span class="p">,</span>
+                        <span class="n">final_output</span><span class="p">,</span>
+                        <span class="n">config</span><span class="o">=</span><span class="n">Config</span><span class="p">(</span><span class="n">check_types</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
+                    <span class="p">)</span>
+
+                <span class="k">return</span> <span class="n">final_output</span>
+
+        <span class="k">except</span> <span class="ne">BaseException</span><span class="p">:</span>
+            <span class="n">traceback</span><span class="o">.</span><span class="n">print_exc</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">deparallelize</span><span class="p">()</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, TUNiB Inc.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

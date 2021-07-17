@@ -1,0 +1,581 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>parallelformers.parallel.replacing &mdash; parallelformers 1.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> parallelformers
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">Intro</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro/INTRO.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro/SUPPORTED_MODELS.html">Supported Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro/POLICY.html">Policy Class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro/FAQ.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro/CONTRIBUTING.html">Contributing to Parallelformers</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Parallelize</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../parallelize/Parallelize.html">Parallelize</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Parallel modules</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../parallel/Engine.html">Parallel Engine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../parallel/Process.html">Parallel Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../parallel/Replacing.html">Tensor Replacer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../parallel/Slicing.html">Tensor Slicer</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Policy modules</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../policy/Auto.html">Auto Policy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../policy/Policy.html">Policy</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Utils</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../utils/Attr_utils.html">Attribute Utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../utils/Dist_utils.html">Distributed Utils</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">parallelformers</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>parallelformers.parallel.replacing</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for parallelformers.parallel.replacing</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Copyright 2021 TUNiB inc.</span>
+<span class="c1">#</span>
+<span class="c1"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1"># you may not use this file except in compliance with the License.</span>
+<span class="c1"># You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1"># http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1"># Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1"># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1"># See the License for the specific language governing permissions and</span>
+<span class="c1"># limitations under the License.</span>
+<span class="kn">from</span> <span class="nn">contextlib</span> <span class="kn">import</span> <span class="n">suppress</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
+
+<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
+<span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">Size</span><span class="p">,</span> <span class="n">Tensor</span>
+
+<span class="kn">from</span> <span class="nn">parallelformers.parallel.slicing</span> <span class="kn">import</span> <span class="n">TensorSlicer</span>
+<span class="kn">from</span> <span class="nn">parallelformers.policies.base</span> <span class="kn">import</span> <span class="n">Layer</span><span class="p">,</span> <span class="n">Policy</span>
+<span class="kn">from</span> <span class="nn">parallelformers.policies.base.auto</span> <span class="kn">import</span> <span class="n">AutoPolicy</span>
+<span class="kn">from</span> <span class="nn">parallelformers.utils</span> <span class="kn">import</span> <span class="n">rgetattr</span><span class="p">,</span> <span class="n">rhasattr</span><span class="p">,</span> <span class="n">rsetattr</span>
+
+
+<div class="viewcode-block" id="TensorReplacer"><a class="viewcode-back" href="../../../parallel/Replacing.html#parallelformers.parallel.replacing.TensorReplacer">[docs]</a><span class="k">class</span> <span class="nc">TensorReplacer</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Replace original Huggingface&#39;s layer into Megatron tensor sliced layer.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        model (nn.Module): Huggingface pre-trained transformer model</span>
+<span class="sd">        mp_group (Any): process group for model parallelism</span>
+<span class="sd">        fp16: (bool): Whether use FP16 or not.</span>
+<span class="sd">        num_gpus (int): number of GPUs</span>
+<span class="sd">        custom_policies (Union[Policy, List[Policy]]): custom policy object (default=None)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">model</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span>
+        <span class="n">mp_group</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+        <span class="n">fp16</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+        <span class="n">num_gpus</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">custom_policies</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Policy</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Policy</span><span class="p">]],</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">config</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fp16</span> <span class="o">=</span> <span class="n">fp16</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_gpus</span> <span class="o">=</span> <span class="n">num_gpus</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mp_group</span> <span class="o">=</span> <span class="n">mp_group</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">varname</span> <span class="o">=</span> <span class="s2">&quot;layer&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">slicer</span> <span class="o">=</span> <span class="n">TensorSlicer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mp_group</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">custom_policies</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">policies</span> <span class="o">=</span> <span class="n">custom_policies</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">custom_policies</span><span class="p">,</span> <span class="n">Policy</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">policies</span> <span class="o">=</span> <span class="p">[</span><span class="n">custom_policies</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">policies</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="TensorReplacer.auto_policy"><a class="viewcode-back" href="../../../parallel/Replacing.html#parallelformers.parallel.replacing.TensorReplacer.auto_policy">[docs]</a>    <span class="k">def</span> <span class="nf">auto_policy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Policy</span><span class="p">]]:</span>
+        <span class="sd">&quot;&quot;&quot;Find the proper policy for current model using AutoPolicy&quot;&quot;&quot;</span>
+
+        <span class="n">auto</span> <span class="o">=</span> <span class="n">AutoPolicy</span><span class="p">()</span>
+        <span class="n">policy_cls</span> <span class="o">=</span> <span class="n">auto</span><span class="o">.</span><span class="n">get_policy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">)</span>
+
+        <span class="k">assert</span> <span class="n">policy_cls</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__qualname__</span><span class="si">}</span><span class="s2"> is not supported yet.</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;Currently we support </span><span class="si">{</span><span class="p">[</span><span class="n">i</span><span class="o">.</span><span class="vm">__qualname__</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">auto</span><span class="o">.</span><span class="n">available</span><span class="p">()</span><span class="o">.</span><span class="n">keys</span><span class="p">()]</span><span class="si">}</span><span class="s2">.</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;To apply to unsupported models, you need to create a custom Policy object.&quot;</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">policy_cls</span></div>
+
+<div class="viewcode-block" id="TensorReplacer.replace_modules"><a class="viewcode-back" href="../../../parallel/Replacing.html#parallelformers.parallel.replacing.TensorReplacer.replace_modules">[docs]</a>    <span class="k">def</span> <span class="nf">replace_modules</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Replace original huggingface layers to Megtraon tensor sliced layers&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">policies</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">policies</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">auto_policy</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">policy</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">policies</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">replace_user_define_modules</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="n">policy</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">replace_orig_to_megatron_modules</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="n">policy</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TensorReplacer.replace_user_define_modules"><a class="viewcode-back" href="../../../parallel/Replacing.html#parallelformers.parallel.replacing.TensorReplacer.replace_user_define_modules">[docs]</a>    <span class="k">def</span> <span class="nf">replace_user_define_modules</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">model</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span>
+        <span class="n">policy_cls</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">Policy</span><span class="p">],</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Replace modules in the model by user defined policy</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            model (nn.Module): model weight</span>
+<span class="sd">            policy_cls (Type[Policy]): class of policy</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">named_children</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">child</span><span class="o">.</span><span class="vm">__class__</span> <span class="o">==</span> <span class="n">nn</span><span class="o">.</span><span class="n">ModuleList</span><span class="p">:</span>
+                <span class="n">child</span> <span class="o">=</span> <span class="n">child</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+            <span class="n">replace_modules</span> <span class="o">=</span> <span class="n">policy_cls</span><span class="o">.</span><span class="n">replace_modules</span><span class="p">()</span>
+
+            <span class="k">if</span> <span class="n">child</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__qualname__</span> <span class="ow">in</span> <span class="n">replace_modules</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="k">for</span> <span class="n">cls_name</span><span class="p">,</span> <span class="bp">cls</span> <span class="ow">in</span> <span class="n">replace_modules</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="k">if</span> <span class="n">child</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__qualname__</span> <span class="o">==</span> <span class="n">cls_name</span><span class="p">:</span>
+                        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                            <span class="n">rsetattr</span><span class="p">(</span>
+                                <span class="n">child</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span>
+                                <span class="s2">&quot;mp_group&quot;</span><span class="p">,</span>
+                                <span class="bp">self</span><span class="o">.</span><span class="n">mp_group</span><span class="p">,</span>
+                            <span class="p">)</span>
+
+                            <span class="k">if</span> <span class="n">rhasattr</span><span class="p">(</span><span class="n">child</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+                                <span class="n">rsetattr</span><span class="p">(</span>
+                                    <span class="n">child</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span>
+                                    <span class="n">key</span><span class="p">,</span>
+                                    <span class="n">rgetattr</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">key</span><span class="p">),</span>
+                                <span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">replace_user_define_modules</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="n">policy_cls</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TensorReplacer.replace_orig_to_megatron_modules"><a class="viewcode-back" href="../../../parallel/Replacing.html#parallelformers.parallel.replacing.TensorReplacer.replace_orig_to_megatron_modules">[docs]</a>    <span class="k">def</span> <span class="nf">replace_orig_to_megatron_modules</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">model</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span>
+        <span class="n">policy_cls</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">Policy</span><span class="p">],</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Replace original Huggingface layers to Megatron tensor sliced layers</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            model (nn.Module): model weight</span>
+<span class="sd">            policy_cls (Type[Policy]): class of policy</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            nn.Module: parallelized paramerters</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">named_children</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">child</span><span class="o">.</span><span class="vm">__class__</span> <span class="o">==</span> <span class="n">policy_cls</span><span class="o">.</span><span class="n">original_layer_class</span><span class="p">():</span>
+                <span class="n">policy</span> <span class="o">=</span> <span class="n">policy_cls</span><span class="p">(</span><span class="n">layer</span><span class="o">=</span><span class="n">child</span><span class="p">)</span>
+                <span class="n">arguments</span> <span class="o">=</span> <span class="n">policy</span><span class="o">.</span><span class="n">replace_arguments</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_gpus</span><span class="p">)</span>
+
+                <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">arguments</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="k">with</span> <span class="n">suppress</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+                        <span class="n">rsetattr</span><span class="p">(</span><span class="n">policy</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">varname</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+
+                <span class="n">rsetattr</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_megatron_layer</span><span class="p">(</span><span class="n">policy</span><span class="p">))</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">replace_orig_to_megatron_modules</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="n">policy_cls</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">model</span></div>
+
+<div class="viewcode-block" id="TensorReplacer.preprocess"><a class="viewcode-back" href="../../../parallel/Replacing.html#parallelformers.parallel.replacing.TensorReplacer.preprocess">[docs]</a>    <span class="k">def</span> <span class="nf">preprocess</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">function_output</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Layer</span><span class="p">],</span> <span class="n">policy</span><span class="p">:</span> <span class="n">Policy</span><span class="p">,)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Dict</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Dict</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Preprocess user&#39;s policy object to replace tensors</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            function_output (List[Layer]): list of layers in the policy object</span>
+<span class="sd">            policy (Policy): policy object</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Tuple[Dict, Dict, Dict, Dict]:</span>
+<span class="sd">                Tuple of dictionaries of parameters and attributes required for tensor slicing</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">weight_dict</span><span class="p">,</span> <span class="n">bias_dict</span><span class="p">,</span> <span class="n">weight_attr_dict</span><span class="p">,</span> <span class="n">bias_attr_dict</span> <span class="o">=</span> <span class="p">{},</span> <span class="p">{},</span> <span class="p">{},</span> <span class="p">{}</span>
+
+        <span class="k">for</span> <span class="n">layer_params</span> <span class="ow">in</span> <span class="n">function_output</span><span class="p">:</span>
+            <span class="n">w</span> <span class="o">=</span> <span class="n">layer_params</span><span class="o">.</span><span class="n">weight</span>
+            <span class="n">b</span> <span class="o">=</span> <span class="n">layer_params</span><span class="o">.</span><span class="n">bias</span>
+            <span class="n">replace</span> <span class="o">=</span> <span class="n">layer_params</span><span class="o">.</span><span class="n">replace</span>
+            <span class="n">n_fused</span> <span class="o">=</span> <span class="n">layer_params</span><span class="o">.</span><span class="n">n_fused</span>
+            <span class="nb">reversed</span> <span class="o">=</span> <span class="n">layer_params</span><span class="o">.</span><span class="n">reversed</span>
+            <span class="n">ignore</span> <span class="o">=</span> <span class="n">layer_params</span><span class="o">.</span><span class="n">ignore_checker</span>
+
+            <span class="k">if</span> <span class="n">w</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">rhasattr</span><span class="p">(</span><span class="n">policy</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">varname</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">w</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">):</span>
+                    <span class="n">w_layer</span> <span class="o">=</span> <span class="n">rgetattr</span><span class="p">(</span><span class="n">policy</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">varname</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">w</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="n">weight_dict</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">varname</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">w</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">w_layer</span>
+                    <span class="n">weight_attr_dict</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">varname</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">w</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="n">n_fused</span><span class="p">,</span>
+                        <span class="nb">reversed</span><span class="p">,</span>
+                    <span class="p">)</span>
+
+                    <span class="n">orig_layer_name</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">w</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+                    <span class="n">orig_layer</span> <span class="o">=</span> <span class="n">rgetattr</span><span class="p">(</span>
+                        <span class="n">policy</span><span class="p">,</span>
+                        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">varname</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">orig_layer_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                    <span class="p">)</span>
+                <span class="k">elif</span> <span class="ow">not</span> <span class="n">ignore</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">policy</span><span class="o">.</span><span class="n">original_layer_class</span><span class="p">()</span><span class="o">.</span><span class="vm">__qualname__</span><span class="si">}</span><span class="s2">&#39; object has no attribute &#39;</span><span class="si">{</span><span class="n">w</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+                    <span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">b</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">rhasattr</span><span class="p">(</span><span class="n">policy</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">varname</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">b</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">):</span>
+                    <span class="n">b_layer</span> <span class="o">=</span> <span class="n">rgetattr</span><span class="p">(</span><span class="n">policy</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">varname</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">b</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="n">bias_dict</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">varname</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">b</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">b_layer</span>
+                    <span class="n">bias_attr_dict</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">varname</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">b</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="n">n_fused</span><span class="p">,</span>
+                        <span class="nb">reversed</span><span class="p">,</span>
+                    <span class="p">)</span>
+
+                    <span class="n">orig_layer_name</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+                    <span class="n">orig_layer</span> <span class="o">=</span> <span class="n">rgetattr</span><span class="p">(</span>
+                        <span class="n">policy</span><span class="p">,</span>
+                        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">varname</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">orig_layer_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                    <span class="p">)</span>
+                <span class="k">elif</span> <span class="ow">not</span> <span class="n">ignore</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">policy</span><span class="o">.</span><span class="n">original_layer_class</span><span class="p">()</span><span class="o">.</span><span class="vm">__qualname__</span><span class="si">}</span><span class="s2">&#39; object has no attribute &#39;</span><span class="si">{</span><span class="n">b</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+                    <span class="p">)</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">w</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">b</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;both weight and bias are empty !&quot;</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">replace</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">orig_layer</span><span class="o">.</span><span class="vm">__class__</span> <span class="o">=</span> <span class="n">replace</span>
+                <span class="n">orig_layer</span><span class="o">.</span><span class="n">mp_group</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mp_group</span>
+
+        <span class="k">return</span> <span class="n">weight_dict</span><span class="p">,</span> <span class="n">bias_dict</span><span class="p">,</span> <span class="n">weight_attr_dict</span><span class="p">,</span> <span class="n">bias_attr_dict</span></div>
+
+<div class="viewcode-block" id="TensorReplacer.set_parameters"><a class="viewcode-back" href="../../../parallel/Replacing.html#parallelformers.parallel.replacing.TensorReplacer.set_parameters">[docs]</a>    <span class="k">def</span> <span class="nf">set_parameters</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">policy</span><span class="p">:</span> <span class="n">Policy</span><span class="p">,</span>
+        <span class="n">weight_name</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">],</span>
+        <span class="n">bias_name</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">],</span>
+        <span class="n">weight_param</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">],</span>
+        <span class="n">bias_param</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">],</span>
+        <span class="n">suffix</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;data&quot;</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Policy</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set sliced parameters into original model</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            policy (Policy): policy object</span>
+<span class="sd">            weight_name (Tuple[str]): names of layer&#39;s weight</span>
+<span class="sd">            bias_name (Tuple[str]): names of layer&#39;s bias</span>
+<span class="sd">            weight_param (Tuple[Tensor]): parameters of sliced weight</span>
+<span class="sd">            bias_param (Tuple[Tensor]): parameters of sliced bias</span>
+<span class="sd">            suffix (str): name of suffix in the parameters</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Policy: policy object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">param</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">weight_name</span><span class="p">,</span> <span class="n">weight_param</span><span class="p">):</span>
+            <span class="n">rsetattr</span><span class="p">(</span><span class="n">policy</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">suffix</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">param</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_layer_size</span><span class="p">(</span><span class="n">policy</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">param</span><span class="o">.</span><span class="n">size</span><span class="p">())</span>
+
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">param</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">bias_name</span><span class="p">,</span> <span class="n">bias_param</span><span class="p">):</span>
+            <span class="n">rsetattr</span><span class="p">(</span><span class="n">policy</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">suffix</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">param</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">policy</span></div>
+
+<div class="viewcode-block" id="TensorReplacer.set_layer_size"><a class="viewcode-back" href="../../../parallel/Replacing.html#parallelformers.parallel.replacing.TensorReplacer.set_layer_size">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">set_layer_size</span><span class="p">(</span>
+        <span class="n">policy</span><span class="p">:</span> <span class="n">Policy</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">size</span><span class="p">:</span> <span class="n">Size</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Apply resize layer size to original layer object</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            policy (Policy): policy object</span>
+<span class="sd">            name (str): name of parameters</span>
+<span class="sd">            size (Size): size of resized parameters</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">layer_name</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">rhasattr</span><span class="p">(</span><span class="n">policy</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">layer_name</span><span class="si">}</span><span class="s2">.nf&quot;</span><span class="p">):</span>
+            <span class="n">rsetattr</span><span class="p">(</span>
+                <span class="n">policy</span><span class="p">,</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">layer_name</span><span class="si">}</span><span class="s2">.nf&quot;</span><span class="p">,</span>
+                <span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;channels&quot;</span><span class="p">,</span> <span class="s2">&quot;features&quot;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;channels&quot;</span><span class="p">:</span>
+                    <span class="n">direction</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;in&quot;</span><span class="p">,</span> <span class="s2">&quot;out&quot;</span><span class="p">]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">direction</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;out&quot;</span><span class="p">,</span> <span class="s2">&quot;in&quot;</span><span class="p">]</span>
+                <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">direction</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">direction</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">rhasattr</span><span class="p">(</span><span class="n">policy</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">layer_name</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">direction</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">):</span>
+                        <span class="n">rsetattr</span><span class="p">(</span>
+                            <span class="n">policy</span><span class="p">,</span>
+                            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">layer_name</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">direction</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                            <span class="n">size</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="TensorReplacer.make_megatron_layer"><a class="viewcode-back" href="../../../parallel/Replacing.html#parallelformers.parallel.replacing.TensorReplacer.make_megatron_layer">[docs]</a>    <span class="k">def</span> <span class="nf">make_megatron_layer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">policy</span><span class="p">:</span> <span class="n">Policy</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Make Megatron tensor sliced layers from original Huggingface layers by tensor slicing.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            policy (Policy): policy object</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            nn.Module: sliced model layer</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">attn_qkvw</span><span class="p">,</span> <span class="n">attn_qkvb</span><span class="p">,</span> <span class="n">attn_qkvw_attr</span><span class="p">,</span> <span class="n">attn_qkvb_attr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">preprocess</span><span class="p">(</span>
+            <span class="n">policy</span><span class="o">.</span><span class="n">attn_qkv</span><span class="p">(),</span>
+            <span class="n">policy</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">attn_outw</span><span class="p">,</span> <span class="n">attn_outb</span><span class="p">,</span> <span class="n">attn_outw_attr</span><span class="p">,</span> <span class="n">attn_outb_attr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">preprocess</span><span class="p">(</span>
+            <span class="n">policy</span><span class="o">.</span><span class="n">attn_out</span><span class="p">(),</span>
+            <span class="n">policy</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">mlp_inw</span><span class="p">,</span> <span class="n">mlp_inb</span><span class="p">,</span> <span class="n">mlp_inw_attr</span><span class="p">,</span> <span class="n">mlp_inb_attr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">preprocess</span><span class="p">(</span>
+            <span class="n">policy</span><span class="o">.</span><span class="n">mlp_in</span><span class="p">(),</span>
+            <span class="n">policy</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">mlp_outw</span><span class="p">,</span> <span class="n">mlp_outb</span><span class="p">,</span> <span class="n">mlp_outw_attr</span><span class="p">,</span> <span class="n">mlp_outb_attr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">preprocess</span><span class="p">(</span>
+            <span class="n">policy</span><span class="o">.</span><span class="n">mlp_out</span><span class="p">(),</span>
+            <span class="n">policy</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="n">policy</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">set_parameters</span><span class="p">(</span>
+            <span class="n">policy</span><span class="p">,</span>
+            <span class="n">attn_qkvw</span><span class="p">,</span>
+            <span class="n">attn_qkvb</span><span class="p">,</span>
+            <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">slicer</span><span class="o">.</span><span class="n">column_slice</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">attn_qkvw</span><span class="p">,</span> <span class="n">attn_qkvb</span><span class="p">),</span>
+                <span class="p">(</span><span class="n">attn_qkvw_attr</span><span class="p">,</span> <span class="n">attn_qkvb_attr</span><span class="p">),</span>
+            <span class="p">),</span>
+        <span class="p">)</span>
+
+        <span class="n">policy</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">set_parameters</span><span class="p">(</span>
+            <span class="n">policy</span><span class="p">,</span>
+            <span class="n">attn_outw</span><span class="p">,</span>
+            <span class="n">attn_outb</span><span class="p">,</span>
+            <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">slicer</span><span class="o">.</span><span class="n">row_slice</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">attn_outw</span><span class="p">,</span> <span class="n">attn_outb</span><span class="p">),</span>
+                <span class="p">(</span><span class="n">attn_outw_attr</span><span class="p">,</span> <span class="n">attn_outb_attr</span><span class="p">),</span>
+            <span class="p">),</span>
+        <span class="p">)</span>
+
+        <span class="n">policy</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">set_parameters</span><span class="p">(</span>
+            <span class="n">policy</span><span class="p">,</span>
+            <span class="n">mlp_inw</span><span class="p">,</span>
+            <span class="n">mlp_inb</span><span class="p">,</span>
+            <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">slicer</span><span class="o">.</span><span class="n">column_slice</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">mlp_inw</span><span class="p">,</span> <span class="n">mlp_inb</span><span class="p">),</span>
+                <span class="p">(</span><span class="n">mlp_inw_attr</span><span class="p">,</span> <span class="n">mlp_inb_attr</span><span class="p">),</span>
+            <span class="p">),</span>
+        <span class="p">)</span>
+
+        <span class="n">policy</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">set_parameters</span><span class="p">(</span>
+            <span class="n">policy</span><span class="p">,</span>
+            <span class="n">mlp_outw</span><span class="p">,</span>
+            <span class="n">mlp_outb</span><span class="p">,</span>
+            <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">slicer</span><span class="o">.</span><span class="n">row_slice</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">mlp_outw</span><span class="p">,</span> <span class="n">mlp_outb</span><span class="p">),</span>
+                <span class="p">(</span><span class="n">mlp_outw_attr</span><span class="p">,</span> <span class="n">mlp_outb_attr</span><span class="p">),</span>
+            <span class="p">),</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">policy</span><span class="o">.</span><span class="n">layer</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, TUNiB Inc.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

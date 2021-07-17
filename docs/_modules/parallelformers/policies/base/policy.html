@@ -1,0 +1,389 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>parallelformers.policies.base.policy &mdash; parallelformers 1.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> parallelformers
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">Intro</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../intro/INTRO.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../intro/SUPPORTED_MODELS.html">Supported Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../intro/POLICY.html">Policy Class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../intro/FAQ.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../intro/CONTRIBUTING.html">Contributing to Parallelformers</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Parallelize</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../parallelize/Parallelize.html">Parallelize</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Parallel modules</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../parallel/Engine.html">Parallel Engine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../parallel/Process.html">Parallel Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../parallel/Replacing.html">Tensor Replacer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../parallel/Slicing.html">Tensor Slicer</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Policy modules</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../policy/Auto.html">Auto Policy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../policy/Policy.html">Policy</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Utils</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils/Attr_utils.html">Attribute Utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils/Dist_utils.html">Distributed Utils</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">parallelformers</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>parallelformers.policies.base.policy</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for parallelformers.policies.base.policy</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Copyright 2021 TUNiB inc.</span>
+<span class="c1">#</span>
+<span class="c1"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1"># you may not use this file except in compliance with the License.</span>
+<span class="c1"># You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1"># http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1"># Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1"># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1"># See the License for the specific language governing permissions and</span>
+<span class="c1"># limitations under the License.</span>
+
+<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
+<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Type</span>
+
+<span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">nn</span>
+
+
+<div class="viewcode-block" id="Layer"><a class="viewcode-back" href="../../../../policy/Policy.html#parallelformers.policies.base.policy.Layer">[docs]</a><span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">Layer</span><span class="p">:</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Dataclass used to describe a layer in the policy object</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        weight and bias (str): the names of the weight and bias tensors, respectively. You can use the syntax</span>
+<span class="sd">            such as `[ ]` or `.` to the tensor names. `.` is used as accessors in common programming languages and `[ ]`</span>
+<span class="sd">            is used to access elements in nn.ModuleList.</span>
+<span class="sd">        n_fused (int): the number of areas used in fused layers. For example, GPT2 and TransfoXL have fused</span>
+<span class="sd">            attention layers that consist of query, key and value. These layers should not be simply chunked by</span>
+<span class="sd">            the number of GPUs. Instead, they should be divided into the query, key and value areas first.</span>
+<span class="sd">        replace (Any): the layer that you want to replace an existing layer with. The parallelization process</span>
+<span class="sd">            by the tensor slicing method involves All-Reduce operations to collect tensors from all GPUs.</span>
+<span class="sd">            So, we need to insert some layer like AllReduceLinear to replace the existing nn.Linear layer.</span>
+<span class="sd">        reversed (bool): this attribute is used to indicate whether tensors are reversed or not. Some models such as</span>
+<span class="sd">            GPT1 and GPT2 use the transformers.modeling_utils.Conv1D layer instead of the nn.Linear layer.</span>
+<span class="sd">            These layers store weight and bias tensors reversed.</span>
+<span class="sd">        ignore_checker (bool): this attribute is used when you want to ignore errors in case the layers do not exist.</span>
+<span class="sd">            Some models like Bert, Roberta and Electra have only encoder layers. but for Huggingface,</span>
+<span class="sd">            these models are also designed to be able to used as decoders. In these models,</span>
+<span class="sd">            some layers may or may not be created depending on the configuraions.</span>
+<span class="sd">            In this case, you can use ignore_checker option to ignore errors even if the layers do not always exist.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">weight</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">bias</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">n_fused</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">replace</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="nb">reversed</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">ignore_checker</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span></div>
+
+
+<div class="viewcode-block" id="Policy"><a class="viewcode-back" href="../../../../policy/Policy.html#parallelformers.policies.base.policy.Policy">[docs]</a><span class="k">class</span> <span class="nc">Policy</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Policy object to apply parallelism per model&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">layer</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Constructor of Policy class</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            layer (nn.Module): The layer to apply the policy to</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">layer</span> <span class="o">=</span> <span class="n">layer</span>
+
+<div class="viewcode-block" id="Policy.replace_arguments"><a class="viewcode-back" href="../../../../policy/Policy.html#parallelformers.policies.base.policy.Policy.replace_arguments">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">replace_arguments</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">world_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Policy for argument replacement.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            config (Config): Huggingface config object</span>
+<span class="sd">            world_size (int): total number of gpu for parallelization</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dict: Dictionary for argument replacement.</span>
+
+<span class="sd">        Notes:</span>
+<span class="sd">            The format of the dictionary object is as follows.</span>
+
+<span class="sd">            dict:</span>
+<span class="sd">                &quot;param_name_1&quot;: reset_value_1,</span>
+<span class="sd">                &quot;param_name_2&quot;: reset_value_2,</span>
+<span class="sd">                &quot;param_name_3&quot;: reset_value_3,</span>
+<span class="sd">                ...</span>
+<span class="sd">                &quot;param_name_n&quot;: reset_value_n</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{}</span></div>
+
+<div class="viewcode-block" id="Policy.replace_modules"><a class="viewcode-back" href="../../../../policy/Policy.html#parallelformers.policies.base.policy.Policy.replace_modules">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">replace_modules</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Policy for class (module) replacement.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dict: Dictionary for class (module) replacement.</span>
+
+<span class="sd">        Notes:</span>
+<span class="sd">            The format of the dictionary object is as follows.</span>
+
+<span class="sd">            dict:</span>
+<span class="sd">                orig_class_name_1: reset_module_class_1,</span>
+<span class="sd">                orig_class_name_2: reset_module_class_2,</span>
+<span class="sd">                orig_class_name_3: reset_module_class_3,</span>
+<span class="sd">                ...</span>
+<span class="sd">                orig_class_name_4: reset_module_class_n</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{}</span></div>
+
+<div class="viewcode-block" id="Policy.attn_qkv"><a class="viewcode-back" href="../../../../policy/Policy.html#parallelformers.policies.base.policy.Policy.attn_qkv">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">attn_qkv</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Attention query, key, value projection layer</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List[Layer]: List of layer object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[]</span></div>
+
+<div class="viewcode-block" id="Policy.attn_out"><a class="viewcode-back" href="../../../../policy/Policy.html#parallelformers.policies.base.policy.Policy.attn_out">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">attn_out</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Attention output projection layer</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List[Layer]: List of layer object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[]</span></div>
+
+<div class="viewcode-block" id="Policy.mlp_in"><a class="viewcode-back" href="../../../../policy/Policy.html#parallelformers.policies.base.policy.Policy.mlp_in">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">mlp_in</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        h -&gt; 4h mlp layer</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List[Layer]: List of layer object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[]</span></div>
+
+<div class="viewcode-block" id="Policy.mlp_out"><a class="viewcode-back" href="../../../../policy/Policy.html#parallelformers.policies.base.policy.Policy.mlp_out">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">mlp_out</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        4h -&gt; h mlp layer</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List[Layer]: List of layer object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[]</span></div>
+
+<div class="viewcode-block" id="Policy.original_layer_class"><a class="viewcode-back" href="../../../../policy/Policy.html#parallelformers.policies.base.policy.Policy.original_layer_class">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">original_layer_class</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Type</span><span class="p">[</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Class to apply the policy to</span>
+<span class="sd">        e.g. BertLayer, GPT2Block, BartEncoderLayer, ...</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Type[nn.Module]: original layer class</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, TUNiB Inc.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

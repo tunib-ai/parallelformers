@@ -1,0 +1,473 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Policy &mdash; parallelformers 1.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Attribute Utils" href="../utils/Attr_utils.html" />
+    <link rel="prev" title="Auto Policy" href="Auto.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> parallelformers
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">Intro</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../intro/INTRO.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/SUPPORTED_MODELS.html">Supported Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/POLICY.html">Policy Class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/FAQ.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/CONTRIBUTING.html">Contributing to Parallelformers</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Parallelize</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../parallelize/Parallelize.html">Parallelize</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Parallel modules</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../parallel/Engine.html">Parallel Engine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../parallel/Process.html">Parallel Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../parallel/Replacing.html">Tensor Replacer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../parallel/Slicing.html">Tensor Slicer</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Policy modules</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Auto.html">Auto Policy</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Policy</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Utils</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../utils/Attr_utils.html">Attribute Utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/Dist_utils.html">Distributed Utils</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">parallelformers</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Policy</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/policy/Policy.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-parallelformers.policies.base.policy">
+<span id="policy"></span><h1>Policy<a class="headerlink" href="#module-parallelformers.policies.base.policy" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="parallelformers.policies.base.policy.Layer">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">parallelformers.policies.base.policy.</span></span><span class="sig-name descname"><span class="pre">Layer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">weight</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bias</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_fused</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">replace</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reversed</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignore_checker</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/parallelformers/policies/base/policy.html#Layer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parallelformers.policies.base.policy.Layer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Dataclass used to describe a layer in the policy object</p>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">weight</span> <span class="pre">and</span> <span class="pre">bias</span></span></dt>
+<dd><p>the names of the weight and bias tensors, respectively. You can use the syntax
+such as <cite>[ ]</cite> or <cite>.</cite> to the tensor names. <cite>.</cite> is used as accessors in common programming languages and <cite>[ ]</cite>
+is used to access elements in nn.ModuleList.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="parallelformers.policies.base.policy.Layer.n_fused">
+<span class="sig-name descname"><span class="pre">n_fused</span></span><a class="headerlink" href="#parallelformers.policies.base.policy.Layer.n_fused" title="Permalink to this definition">¶</a></dt>
+<dd><p>the number of areas used in fused layers. For example, GPT2 and TransfoXL have fused
+attention layers that consist of query, key and value. These layers should not be simply chunked by
+the number of GPUs. Instead, they should be divided into the query, key and value areas first.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="parallelformers.policies.base.policy.Layer.replace">
+<span class="sig-name descname"><span class="pre">replace</span></span><a class="headerlink" href="#parallelformers.policies.base.policy.Layer.replace" title="Permalink to this definition">¶</a></dt>
+<dd><p>the layer that you want to replace an existing layer with. The parallelization process
+by the tensor slicing method involves All-Reduce operations to collect tensors from all GPUs.
+So, we need to insert some layer like AllReduceLinear to replace the existing nn.Linear layer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Any</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="parallelformers.policies.base.policy.Layer.reversed">
+<span class="sig-name descname"><span class="pre">reversed</span></span><a class="headerlink" href="#parallelformers.policies.base.policy.Layer.reversed" title="Permalink to this definition">¶</a></dt>
+<dd><p>this attribute is used to indicate whether tensors are reversed or not. Some models such as
+GPT1 and GPT2 use the transformers.modeling_utils.Conv1D layer instead of the nn.Linear layer.
+These layers store weight and bias tensors reversed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="parallelformers.policies.base.policy.Layer.ignore_checker">
+<span class="sig-name descname"><span class="pre">ignore_checker</span></span><a class="headerlink" href="#parallelformers.policies.base.policy.Layer.ignore_checker" title="Permalink to this definition">¶</a></dt>
+<dd><p>this attribute is used when you want to ignore errors in case the layers do not exist.
+Some models like Bert, Roberta and Electra have only encoder layers. but for Huggingface,
+these models are also designed to be able to used as decoders. In these models,
+some layers may or may not be created depending on the configuraions.
+In this case, you can use ignore_checker option to ignore errors even if the layers do not always exist.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="parallelformers.policies.base.policy.Layer.weight">
+<span class="sig-name descname"><span class="pre">weight</span></span><em class="property"><span class="pre">:</span> <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><span class="pre">str</span></a></em><em class="property"> <span class="pre">=</span> <span class="pre">None</span></em><a class="headerlink" href="#parallelformers.policies.base.policy.Layer.weight" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="parallelformers.policies.base.policy.Layer.bias">
+<span class="sig-name descname"><span class="pre">bias</span></span><em class="property"><span class="pre">:</span> <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><span class="pre">str</span></a></em><em class="property"> <span class="pre">=</span> <span class="pre">None</span></em><a class="headerlink" href="#parallelformers.policies.base.policy.Layer.bias" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id0">
+<span class="sig-name descname"><span class="pre">n_fused</span></span><em class="property"><span class="pre">:</span> <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a></em><em class="property"> <span class="pre">=</span> <span class="pre">None</span></em><a class="headerlink" href="#id0" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id1">
+<span class="sig-name descname"><span class="pre">replace</span></span><em class="property"><span class="pre">:</span> <span class="pre">Any</span></em><em class="property"> <span class="pre">=</span> <span class="pre">None</span></em><a class="headerlink" href="#id1" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id2">
+<span class="sig-name descname"><span class="pre">reversed</span></span><em class="property"><span class="pre">:</span> <span class="pre">Any</span></em><em class="property"> <span class="pre">=</span> <span class="pre">None</span></em><a class="headerlink" href="#id2" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id3">
+<span class="sig-name descname"><span class="pre">ignore_checker</span></span><em class="property"><span class="pre">:</span> <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a></em><em class="property"> <span class="pre">=</span> <span class="pre">False</span></em><a class="headerlink" href="#id3" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="parallelformers.policies.base.policy.Policy">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">parallelformers.policies.base.policy.</span></span><span class="sig-name descname"><span class="pre">Policy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">layer</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.nn.modules.module.Module</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/parallelformers/policies/base/policy.html#Policy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parallelformers.policies.base.policy.Policy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/abc.html#abc.ABC" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></a></p>
+<p>Policy object to apply parallelism per model</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="parallelformers.policies.base.policy.Policy.replace_arguments">
+<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">replace_arguments</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">world_size</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span></span></span><a class="reference internal" href="../_modules/parallelformers/policies/base/policy.html#Policy.replace_arguments"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parallelformers.policies.base.policy.Policy.replace_arguments" title="Permalink to this definition">¶</a></dt>
+<dd><p>Policy for argument replacement.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>config</strong> (<em>Config</em>) – Huggingface config object</p></li>
+<li><p><strong>world_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – total number of gpu for parallelization</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Dictionary for argument replacement.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Dict</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>The format of the dictionary object is as follows.</p>
+<dl class="simple">
+<dt>dict:</dt><dd><p>“param_name_1”: reset_value_1,
+“param_name_2”: reset_value_2,
+“param_name_3”: reset_value_3,
+…
+“param_name_n”: reset_value_n</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parallelformers.policies.base.policy.Policy.replace_modules">
+<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">replace_modules</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span></span></span><a class="reference internal" href="../_modules/parallelformers/policies/base/policy.html#Policy.replace_modules"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parallelformers.policies.base.policy.Policy.replace_modules" title="Permalink to this definition">¶</a></dt>
+<dd><p>Policy for class (module) replacement.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Dictionary for class (module) replacement.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>Dict</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>The format of the dictionary object is as follows.</p>
+<dl class="simple">
+<dt>dict:</dt><dd><p>orig_class_name_1: reset_module_class_1,
+orig_class_name_2: reset_module_class_2,
+orig_class_name_3: reset_module_class_3,
+…
+orig_class_name_4: reset_module_class_n</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parallelformers.policies.base.policy.Policy.attn_qkv">
+<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">attn_qkv</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span></span></span><a class="reference internal" href="../_modules/parallelformers/policies/base/policy.html#Policy.attn_qkv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parallelformers.policies.base.policy.Policy.attn_qkv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Attention query, key, value projection layer</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>List of layer object</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>List[<a class="reference internal" href="#parallelformers.policies.base.policy.Layer" title="parallelformers.policies.base.policy.Layer">Layer</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parallelformers.policies.base.policy.Policy.attn_out">
+<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">attn_out</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span></span></span><a class="reference internal" href="../_modules/parallelformers/policies/base/policy.html#Policy.attn_out"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parallelformers.policies.base.policy.Policy.attn_out" title="Permalink to this definition">¶</a></dt>
+<dd><p>Attention output projection layer</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>List of layer object</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>List[<a class="reference internal" href="#parallelformers.policies.base.policy.Layer" title="parallelformers.policies.base.policy.Layer">Layer</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parallelformers.policies.base.policy.Policy.mlp_in">
+<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">mlp_in</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span></span></span><a class="reference internal" href="../_modules/parallelformers/policies/base/policy.html#Policy.mlp_in"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parallelformers.policies.base.policy.Policy.mlp_in" title="Permalink to this definition">¶</a></dt>
+<dd><p>h -&gt; 4h mlp layer</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>List of layer object</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>List[<a class="reference internal" href="#parallelformers.policies.base.policy.Layer" title="parallelformers.policies.base.policy.Layer">Layer</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parallelformers.policies.base.policy.Policy.mlp_out">
+<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">mlp_out</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span></span></span><a class="reference internal" href="../_modules/parallelformers/policies/base/policy.html#Policy.mlp_out"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parallelformers.policies.base.policy.Policy.mlp_out" title="Permalink to this definition">¶</a></dt>
+<dd><p>4h -&gt; h mlp layer</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>List of layer object</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>List[<a class="reference internal" href="#parallelformers.policies.base.policy.Layer" title="parallelformers.policies.base.policy.Layer">Layer</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parallelformers.policies.base.policy.Policy.original_layer_class">
+<em class="property"><span class="pre">abstract</span> <span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">original_layer_class</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><span class="pre">torch.nn.modules.module.Module</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/parallelformers/policies/base/policy.html#Policy.original_layer_class"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parallelformers.policies.base.policy.Policy.original_layer_class" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class to apply the policy to
+e.g. BertLayer, GPT2Block, BartEncoderLayer, …</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>original layer class</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>Type[nn.Module]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="../utils/Attr_utils.html" class="btn btn-neutral float-right" title="Attribute Utils" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="Auto.html" class="btn btn-neutral float-left" title="Auto Policy" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, TUNiB Inc.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -25,8 +25,13 @@ from parallelformers.utils import rsetattr
 
 
 class ParallelEngine(object):
-    """
+    r"""
     Model parallelization processing engine
+
+    Args:
+        num_gpus (int): number of gpus
+        backend (str): distributed backend (default=nccl)
+        custom_policies (Union[Policy, List[Policy]]): user customized policy objects
 
     Notes:
         The parallelization process is performed through the following process.
@@ -42,14 +47,6 @@ class ParallelEngine(object):
         backend: str,
         custom_policies: Union[Policy, List[Policy]],
     ) -> None:
-        """
-        Constructor of ParallelEngine class
-
-        Args:
-            num_gpus (int): number of gpus
-            backend (str): distributed backend (default=nccl)
-            custom_policies (Union[Policy, List[Policy]]): user customized policy objects
-        """
 
         self.num_gpus = num_gpus
         self.custom_policies = custom_policies

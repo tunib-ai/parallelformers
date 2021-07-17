@@ -1,0 +1,543 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>parallelformers.policies.base.auto &mdash; parallelformers 1.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> parallelformers
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">Intro</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../intro/INTRO.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../intro/SUPPORTED_MODELS.html">Supported Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../intro/POLICY.html">Policy Class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../intro/FAQ.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../intro/CONTRIBUTING.html">Contributing to Parallelformers</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Parallelize</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../parallelize/Parallelize.html">Parallelize</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Parallel modules</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../parallel/Engine.html">Parallel Engine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../parallel/Process.html">Parallel Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../parallel/Replacing.html">Tensor Replacer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../parallel/Slicing.html">Tensor Slicer</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Policy modules</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../policy/Auto.html">Auto Policy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../policy/Policy.html">Policy</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Utils</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils/Attr_utils.html">Attribute Utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils/Dist_utils.html">Distributed Utils</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">parallelformers</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>parallelformers.policies.base.auto</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for parallelformers.policies.base.auto</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Copyright 2021 TUNiB inc.</span>
+<span class="c1">#</span>
+<span class="c1"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1"># you may not use this file except in compliance with the License.</span>
+<span class="c1"># You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1"># http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1"># Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1"># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1"># See the License for the specific language governing permissions and</span>
+<span class="c1"># limitations under the License.</span>
+
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">nn</span>
+<span class="kn">from</span> <span class="nn">transformers.models.albert.modeling_albert</span> <span class="kn">import</span> <span class="n">AlbertPreTrainedModel</span>
+<span class="kn">from</span> <span class="nn">transformers.models.bart.modeling_bart</span> <span class="kn">import</span> <span class="n">BartPretrainedModel</span>
+<span class="kn">from</span> <span class="nn">transformers.models.bert.modeling_bert</span> <span class="kn">import</span> <span class="n">BertPreTrainedModel</span>
+<span class="kn">from</span> <span class="nn">transformers.models.bert_generation.modeling_bert_generation</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">BertGenerationPreTrainedModel</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">transformers.models.big_bird.modeling_big_bird</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">BigBirdPreTrainedModel</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">transformers.models.bigbird_pegasus.modeling_bigbird_pegasus</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">BigBirdPegasusPreTrainedModel</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">transformers.models.blenderbot.modeling_blenderbot</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">BlenderbotPreTrainedModel</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">transformers.models.blenderbot_small.modeling_blenderbot_small</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">BlenderbotSmallPreTrainedModel</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">transformers.models.clip.modeling_clip</span> <span class="kn">import</span> <span class="n">CLIPPreTrainedModel</span>
+<span class="kn">from</span> <span class="nn">transformers.models.convbert.modeling_convbert</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">ConvBertPreTrainedModel</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">transformers.models.ctrl.modeling_ctrl</span> <span class="kn">import</span> <span class="n">CTRLPreTrainedModel</span>
+<span class="kn">from</span> <span class="nn">transformers.models.deberta.modeling_deberta</span> <span class="kn">import</span> <span class="n">DebertaPreTrainedModel</span>
+<span class="kn">from</span> <span class="nn">transformers.models.deberta_v2.modeling_deberta_v2</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">DebertaV2PreTrainedModel</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">transformers.models.deit.modeling_deit</span> <span class="kn">import</span> <span class="n">DeiTPreTrainedModel</span>
+<span class="kn">from</span> <span class="nn">transformers.models.detr.modeling_detr</span> <span class="kn">import</span> <span class="n">DetrPreTrainedModel</span>
+<span class="kn">from</span> <span class="nn">transformers.models.distilbert.modeling_distilbert</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">DistilBertPreTrainedModel</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">transformers.models.dpr.modeling_dpr</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">DPRPretrainedContextEncoder</span><span class="p">,</span>
+    <span class="n">DPRPretrainedQuestionEncoder</span><span class="p">,</span>
+    <span class="n">DPRPretrainedReader</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">transformers.models.electra.modeling_electra</span> <span class="kn">import</span> <span class="n">ElectraPreTrainedModel</span>
+<span class="kn">from</span> <span class="nn">transformers.models.fsmt.modeling_fsmt</span> <span class="kn">import</span> <span class="n">PretrainedFSMTModel</span>
+<span class="kn">from</span> <span class="nn">transformers.models.funnel.modeling_funnel</span> <span class="kn">import</span> <span class="n">FunnelPreTrainedModel</span>
+<span class="kn">from</span> <span class="nn">transformers.models.gpt2.modeling_gpt2</span> <span class="kn">import</span> <span class="n">GPT2PreTrainedModel</span>
+<span class="kn">from</span> <span class="nn">transformers.models.gpt_neo.modeling_gpt_neo</span> <span class="kn">import</span> <span class="n">GPTNeoPreTrainedModel</span>
+<span class="kn">from</span> <span class="nn">transformers.models.hubert.modeling_hubert</span> <span class="kn">import</span> <span class="n">HubertPreTrainedModel</span>
+<span class="kn">from</span> <span class="nn">transformers.models.ibert.modeling_ibert</span> <span class="kn">import</span> <span class="n">IBertPreTrainedModel</span>
+<span class="kn">from</span> <span class="nn">transformers.models.layoutlm.modeling_layoutlm</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">LayoutLMPreTrainedModel</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">transformers.models.led.modeling_led</span> <span class="kn">import</span> <span class="n">LEDPreTrainedModel</span>
+<span class="kn">from</span> <span class="nn">transformers.models.longformer.modeling_longformer</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">LongformerPreTrainedModel</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">transformers.models.luke.modeling_luke</span> <span class="kn">import</span> <span class="n">LukePreTrainedModel</span>
+<span class="kn">from</span> <span class="nn">transformers.models.lxmert.modeling_lxmert</span> <span class="kn">import</span> <span class="n">LxmertPreTrainedModel</span>
+<span class="kn">from</span> <span class="nn">transformers.models.m2m_100.modeling_m2m_100</span> <span class="kn">import</span> <span class="n">M2M100PreTrainedModel</span>
+<span class="kn">from</span> <span class="nn">transformers.models.marian.modeling_marian</span> <span class="kn">import</span> <span class="n">MarianPreTrainedModel</span>
+<span class="kn">from</span> <span class="nn">transformers.models.mbart.modeling_mbart</span> <span class="kn">import</span> <span class="n">MBartPreTrainedModel</span>
+<span class="kn">from</span> <span class="nn">transformers.models.mobilebert.modeling_mobilebert</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">MobileBertPreTrainedModel</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">transformers.models.mpnet.modeling_mpnet</span> <span class="kn">import</span> <span class="n">MPNetPreTrainedModel</span>
+<span class="kn">from</span> <span class="nn">transformers.models.openai.modeling_openai</span> <span class="kn">import</span> <span class="n">OpenAIGPTPreTrainedModel</span>
+<span class="kn">from</span> <span class="nn">transformers.models.pegasus.modeling_pegasus</span> <span class="kn">import</span> <span class="n">PegasusPreTrainedModel</span>
+<span class="kn">from</span> <span class="nn">transformers.models.prophetnet.modeling_prophetnet</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">ProphetNetPreTrainedModel</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">transformers.models.reformer.modeling_reformer</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">ReformerPreTrainedModel</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">transformers.models.retribert.modeling_retribert</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">RetriBertPreTrainedModel</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">transformers.models.roberta.modeling_roberta</span> <span class="kn">import</span> <span class="n">RobertaPreTrainedModel</span>
+<span class="kn">from</span> <span class="nn">transformers.models.roformer.modeling_roformer</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">RoFormerPreTrainedModel</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">transformers.models.speech_to_text.modeling_speech_to_text</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Speech2TextPreTrainedModel</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">transformers.models.t5.modeling_t5</span> <span class="kn">import</span> <span class="n">T5PreTrainedModel</span>
+<span class="kn">from</span> <span class="nn">transformers.models.tapas.modeling_tapas</span> <span class="kn">import</span> <span class="n">TapasPreTrainedModel</span>
+<span class="kn">from</span> <span class="nn">transformers.models.transfo_xl.modeling_transfo_xl</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">TransfoXLPreTrainedModel</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">transformers.models.visual_bert.modeling_visual_bert</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">VisualBertPreTrainedModel</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">transformers.models.vit.modeling_vit</span> <span class="kn">import</span> <span class="n">ViTPreTrainedModel</span>
+<span class="kn">from</span> <span class="nn">transformers.models.wav2vec2.modeling_wav2vec2</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Wav2Vec2PreTrainedModel</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">transformers.models.xlm.modeling_xlm</span> <span class="kn">import</span> <span class="n">XLMPreTrainedModel</span>
+<span class="kn">from</span> <span class="nn">transformers.models.xlnet.modeling_xlnet</span> <span class="kn">import</span> <span class="n">XLNetPreTrainedModel</span>
+
+<span class="kn">from</span> <span class="nn">parallelformers.policies.albert</span> <span class="kn">import</span> <span class="n">AlbertPolicy</span>
+<span class="kn">from</span> <span class="nn">parallelformers.policies.bart</span> <span class="kn">import</span> <span class="n">BartDecoderPolicy</span><span class="p">,</span> <span class="n">BartEncoderPolicy</span>
+<span class="kn">from</span> <span class="nn">parallelformers.policies.base</span> <span class="kn">import</span> <span class="n">Policy</span>
+<span class="kn">from</span> <span class="nn">parallelformers.policies.bert</span> <span class="kn">import</span> <span class="n">BertPolicy</span>
+<span class="kn">from</span> <span class="nn">parallelformers.policies.bigbird</span> <span class="kn">import</span> <span class="n">BigBirdPolicy</span>
+<span class="kn">from</span> <span class="nn">parallelformers.policies.bigbird_pegasus</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">BigBirdPegasusDecoderPolicy</span><span class="p">,</span>
+    <span class="n">BigBirdPegasusEncoderPolicy</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">parallelformers.policies.blenderbot</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">BlenderbotDecoderPolicy</span><span class="p">,</span>
+    <span class="n">BlenderbotEncoderPolicy</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">parallelformers.policies.blenderbot_small</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">BlenderbotSmallDecoderPolicy</span><span class="p">,</span>
+    <span class="n">BlenderbotSmallEncoderPolicy</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">parallelformers.policies.clip</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">CLIPLayerPolicy</span><span class="p">,</span>
+    <span class="n">CLIPTextPolicy</span><span class="p">,</span>
+    <span class="n">CLIPVisionPolicy</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">parallelformers.policies.convbert</span> <span class="kn">import</span> <span class="n">ConvBertPolicy</span>
+<span class="kn">from</span> <span class="nn">parallelformers.policies.ctrl</span> <span class="kn">import</span> <span class="n">CTRLPolicy</span>
+<span class="kn">from</span> <span class="nn">parallelformers.policies.deberta</span> <span class="kn">import</span> <span class="n">DebertaPolicy</span>
+<span class="kn">from</span> <span class="nn">parallelformers.policies.deberta_v2</span> <span class="kn">import</span> <span class="n">DebertaV2Policy</span>
+<span class="kn">from</span> <span class="nn">parallelformers.policies.deit</span> <span class="kn">import</span> <span class="n">DeiTPolicy</span>
+<span class="kn">from</span> <span class="nn">parallelformers.policies.detr</span> <span class="kn">import</span> <span class="n">DetrDecoderPolicy</span><span class="p">,</span> <span class="n">DetrEncoderPolicy</span>
+<span class="kn">from</span> <span class="nn">parallelformers.policies.distil_bert</span> <span class="kn">import</span> <span class="n">DistilBertPolicy</span>
+<span class="kn">from</span> <span class="nn">parallelformers.policies.electra</span> <span class="kn">import</span> <span class="n">ElectraPolicy</span>
+<span class="kn">from</span> <span class="nn">parallelformers.policies.fsmt</span> <span class="kn">import</span> <span class="n">FSMTDecoderPolicy</span><span class="p">,</span> <span class="n">FSMTEncoderPolicy</span>
+<span class="kn">from</span> <span class="nn">parallelformers.policies.funnel</span> <span class="kn">import</span> <span class="n">FunnelPolicy</span>
+<span class="kn">from</span> <span class="nn">parallelformers.policies.gpt2</span> <span class="kn">import</span> <span class="n">GPT2Policy</span>
+<span class="kn">from</span> <span class="nn">parallelformers.policies.gpt_neo</span> <span class="kn">import</span> <span class="n">GPTNeoPolicy</span>
+<span class="kn">from</span> <span class="nn">parallelformers.policies.hubert</span> <span class="kn">import</span> <span class="n">HubertPolicy</span>
+<span class="kn">from</span> <span class="nn">parallelformers.policies.ibert</span> <span class="kn">import</span> <span class="n">IBertPolicy</span>
+<span class="kn">from</span> <span class="nn">parallelformers.policies.layoutlm</span> <span class="kn">import</span> <span class="n">LayoutLMPolicy</span>
+<span class="kn">from</span> <span class="nn">parallelformers.policies.led</span> <span class="kn">import</span> <span class="n">LEDDecoderPolicy</span><span class="p">,</span> <span class="n">LEDEncoderPolicy</span>
+<span class="kn">from</span> <span class="nn">parallelformers.policies.longformer</span> <span class="kn">import</span> <span class="n">LongformerPolicy</span>
+<span class="kn">from</span> <span class="nn">parallelformers.policies.luke</span> <span class="kn">import</span> <span class="n">LukePolicy</span>
+<span class="kn">from</span> <span class="nn">parallelformers.policies.lxmert</span> <span class="kn">import</span> <span class="n">LxmertPolicy</span>
+<span class="kn">from</span> <span class="nn">parallelformers.policies.m2m_100</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">M2M100DecoderPolicy</span><span class="p">,</span>
+    <span class="n">M2M100EncoderPolicy</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">parallelformers.policies.marian</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">MarianDecoderPolicy</span><span class="p">,</span>
+    <span class="n">MarianEncoderPolicy</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">parallelformers.policies.mbart</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">MBartDecoderPolicy</span><span class="p">,</span>
+    <span class="n">MBartEncoderPolicy</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">parallelformers.policies.mobilebert</span> <span class="kn">import</span> <span class="n">MobileBertPolicy</span>
+<span class="kn">from</span> <span class="nn">parallelformers.policies.mpnet</span> <span class="kn">import</span> <span class="n">MPNetEncoderPolicy</span><span class="p">,</span> <span class="n">MPNetLayerPolicy</span>
+<span class="kn">from</span> <span class="nn">parallelformers.policies.openai</span> <span class="kn">import</span> <span class="n">OpenAIGPTPolicy</span>
+<span class="kn">from</span> <span class="nn">parallelformers.policies.pegasus</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">PegasusDecoderPolicy</span><span class="p">,</span>
+    <span class="n">PegasusEncoderPolicy</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">parallelformers.policies.prophetnet</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">ProphetNetDecoderPolicy</span><span class="p">,</span>
+    <span class="n">ProphetNetEncoderPolicy</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">parallelformers.policies.reformer</span> <span class="kn">import</span> <span class="n">ReformerPolicy</span>
+<span class="kn">from</span> <span class="nn">parallelformers.policies.roberta</span> <span class="kn">import</span> <span class="n">RobertaPolicy</span>
+<span class="kn">from</span> <span class="nn">parallelformers.policies.roformer</span> <span class="kn">import</span> <span class="n">RoformerPolicy</span>
+<span class="kn">from</span> <span class="nn">parallelformers.policies.speech_to_text</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Speech2TextDecoderPolicy</span><span class="p">,</span>
+    <span class="n">Speech2TextEncoderPolicy</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">parallelformers.policies.t5</span> <span class="kn">import</span> <span class="n">T5Policy</span>
+<span class="kn">from</span> <span class="nn">parallelformers.policies.tapas</span> <span class="kn">import</span> <span class="n">TapasPolicy</span>
+<span class="kn">from</span> <span class="nn">parallelformers.policies.transfo_xl</span> <span class="kn">import</span> <span class="n">TransfoXLPolicy</span>
+<span class="kn">from</span> <span class="nn">parallelformers.policies.visual_bert</span> <span class="kn">import</span> <span class="n">VisualBertPolicy</span>
+<span class="kn">from</span> <span class="nn">parallelformers.policies.vit</span> <span class="kn">import</span> <span class="n">ViTPolicy</span>
+<span class="kn">from</span> <span class="nn">parallelformers.policies.wav2vec</span> <span class="kn">import</span> <span class="n">Wav2VecPolicy</span>
+<span class="kn">from</span> <span class="nn">parallelformers.policies.xlm</span> <span class="kn">import</span> <span class="n">XLMAttentionPolicy</span><span class="p">,</span> <span class="n">XLMMLPPolicy</span>
+<span class="kn">from</span> <span class="nn">parallelformers.policies.xlnet</span> <span class="kn">import</span> <span class="n">XLNetPolicy</span>
+
+
+<div class="viewcode-block" id="AutoPolicy"><a class="viewcode-back" href="../../../../policy/Auto.html#parallelformers.policies.base.auto.AutoPolicy">[docs]</a><span class="k">class</span> <span class="nc">AutoPolicy</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Class for finds automatically appropriate policies for the current model&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="AutoPolicy.get_policy"><a class="viewcode-back" href="../../../../policy/Auto.html#parallelformers.policies.base.auto.AutoPolicy.get_policy">[docs]</a>    <span class="k">def</span> <span class="nf">get_policy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Policy</span><span class="p">],</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Find appropriate policies for the current model</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            model (nn.Module): model to parallelize</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Union[List[Policy], None]: appropriate policies or none</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">available</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">v</span>
+
+        <span class="k">return</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="AutoPolicy.available"><a class="viewcode-back" href="../../../../policy/Auto.html#parallelformers.policies.base.auto.AutoPolicy.available">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">available</span><span class="p">():</span>
+        <span class="sd">&quot;&quot;&quot;Dictionary of available models and policies&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="n">GPTNeoPreTrainedModel</span><span class="p">:</span> <span class="p">[</span><span class="n">GPTNeoPolicy</span><span class="p">],</span>
+            <span class="n">BertPreTrainedModel</span><span class="p">:</span> <span class="p">[</span><span class="n">BertPolicy</span><span class="p">],</span>
+            <span class="n">BartPretrainedModel</span><span class="p">:</span> <span class="p">[</span>
+                <span class="n">BartEncoderPolicy</span><span class="p">,</span>
+                <span class="n">BartDecoderPolicy</span><span class="p">,</span>
+            <span class="p">],</span>
+            <span class="n">BlenderbotPreTrainedModel</span><span class="p">:</span> <span class="p">[</span>
+                <span class="n">BlenderbotEncoderPolicy</span><span class="p">,</span>
+                <span class="n">BlenderbotDecoderPolicy</span><span class="p">,</span>
+            <span class="p">],</span>
+            <span class="n">DebertaPreTrainedModel</span><span class="p">:</span> <span class="p">[</span><span class="n">DebertaPolicy</span><span class="p">],</span>
+            <span class="n">TransfoXLPreTrainedModel</span><span class="p">:</span> <span class="p">[</span><span class="n">TransfoXLPolicy</span><span class="p">],</span>
+            <span class="n">RobertaPreTrainedModel</span><span class="p">:</span> <span class="p">[</span><span class="n">RobertaPolicy</span><span class="p">],</span>
+            <span class="n">AlbertPreTrainedModel</span><span class="p">:</span> <span class="p">[</span><span class="n">AlbertPolicy</span><span class="p">],</span>
+            <span class="n">GPT2PreTrainedModel</span><span class="p">:</span> <span class="p">[</span><span class="n">GPT2Policy</span><span class="p">],</span>
+            <span class="n">CTRLPreTrainedModel</span><span class="p">:</span> <span class="p">[</span><span class="n">CTRLPolicy</span><span class="p">],</span>
+            <span class="n">DebertaV2PreTrainedModel</span><span class="p">:</span> <span class="p">[</span><span class="n">DebertaV2Policy</span><span class="p">],</span>
+            <span class="n">OpenAIGPTPreTrainedModel</span><span class="p">:</span> <span class="p">[</span><span class="n">OpenAIGPTPolicy</span><span class="p">],</span>
+            <span class="n">ElectraPreTrainedModel</span><span class="p">:</span> <span class="p">[</span><span class="n">ElectraPolicy</span><span class="p">],</span>
+            <span class="n">BlenderbotSmallPreTrainedModel</span><span class="p">:</span> <span class="p">[</span>
+                <span class="n">BlenderbotSmallEncoderPolicy</span><span class="p">,</span>
+                <span class="n">BlenderbotSmallDecoderPolicy</span><span class="p">,</span>
+            <span class="p">],</span>
+            <span class="n">DistilBertPreTrainedModel</span><span class="p">:</span> <span class="p">[</span><span class="n">DistilBertPolicy</span><span class="p">],</span>
+            <span class="n">ConvBertPreTrainedModel</span><span class="p">:</span> <span class="p">[</span><span class="n">ConvBertPolicy</span><span class="p">],</span>
+            <span class="n">BertGenerationPreTrainedModel</span><span class="p">:</span> <span class="p">[</span><span class="n">BertPolicy</span><span class="p">],</span>
+            <span class="n">BigBirdPreTrainedModel</span><span class="p">:</span> <span class="p">[</span><span class="n">BigBirdPolicy</span><span class="p">],</span>
+            <span class="n">BigBirdPegasusPreTrainedModel</span><span class="p">:</span> <span class="p">[</span>
+                <span class="n">BigBirdPegasusEncoderPolicy</span><span class="p">,</span>
+                <span class="n">BigBirdPegasusDecoderPolicy</span><span class="p">,</span>
+            <span class="p">],</span>
+            <span class="n">ViTPreTrainedModel</span><span class="p">:</span> <span class="p">[</span><span class="n">ViTPolicy</span><span class="p">],</span>
+            <span class="n">DeiTPreTrainedModel</span><span class="p">:</span> <span class="p">[</span><span class="n">DeiTPolicy</span><span class="p">],</span>
+            <span class="n">MBartPreTrainedModel</span><span class="p">:</span> <span class="p">[</span>
+                <span class="n">MBartEncoderPolicy</span><span class="p">,</span>
+                <span class="n">MBartDecoderPolicy</span><span class="p">,</span>
+            <span class="p">],</span>
+            <span class="n">T5PreTrainedModel</span><span class="p">:</span> <span class="p">[</span><span class="n">T5Policy</span><span class="p">],</span>
+            <span class="n">PegasusPreTrainedModel</span><span class="p">:</span> <span class="p">[</span>
+                <span class="n">PegasusEncoderPolicy</span><span class="p">,</span>
+                <span class="n">PegasusDecoderPolicy</span><span class="p">,</span>
+            <span class="p">],</span>
+            <span class="n">PretrainedFSMTModel</span><span class="p">:</span> <span class="p">[</span>
+                <span class="n">FSMTEncoderPolicy</span><span class="p">,</span>
+                <span class="n">FSMTDecoderPolicy</span><span class="p">,</span>
+            <span class="p">],</span>
+            <span class="n">XLMPreTrainedModel</span><span class="p">:</span> <span class="p">[</span>
+                <span class="n">XLMAttentionPolicy</span><span class="p">,</span>
+                <span class="n">XLMMLPPolicy</span><span class="p">,</span>
+            <span class="p">],</span>
+            <span class="n">M2M100PreTrainedModel</span><span class="p">:</span> <span class="p">[</span>
+                <span class="n">M2M100EncoderPolicy</span><span class="p">,</span>
+                <span class="n">M2M100DecoderPolicy</span><span class="p">,</span>
+            <span class="p">],</span>
+            <span class="n">MarianPreTrainedModel</span><span class="p">:</span> <span class="p">[</span>
+                <span class="n">MarianEncoderPolicy</span><span class="p">,</span>
+                <span class="n">MarianDecoderPolicy</span><span class="p">,</span>
+            <span class="p">],</span>
+            <span class="n">MobileBertPreTrainedModel</span><span class="p">:</span> <span class="p">[</span><span class="n">MobileBertPolicy</span><span class="p">],</span>
+            <span class="n">MPNetPreTrainedModel</span><span class="p">:</span> <span class="p">[</span>
+                <span class="n">MPNetLayerPolicy</span><span class="p">,</span>
+                <span class="n">MPNetEncoderPolicy</span><span class="p">,</span>
+            <span class="p">],</span>
+            <span class="n">LukePreTrainedModel</span><span class="p">:</span> <span class="p">[</span><span class="n">LukePolicy</span><span class="p">],</span>
+            <span class="n">DPRPretrainedContextEncoder</span><span class="p">:</span> <span class="p">[</span><span class="n">BertPolicy</span><span class="p">],</span>
+            <span class="n">DPRPretrainedQuestionEncoder</span><span class="p">:</span> <span class="p">[</span><span class="n">BertPolicy</span><span class="p">],</span>
+            <span class="n">DPRPretrainedReader</span><span class="p">:</span> <span class="p">[</span><span class="n">BertPolicy</span><span class="p">],</span>
+            <span class="n">LxmertPreTrainedModel</span><span class="p">:</span> <span class="p">[</span><span class="n">LxmertPolicy</span><span class="p">],</span>
+            <span class="n">HubertPreTrainedModel</span><span class="p">:</span> <span class="p">[</span><span class="n">HubertPolicy</span><span class="p">],</span>
+            <span class="n">Wav2Vec2PreTrainedModel</span><span class="p">:</span> <span class="p">[</span><span class="n">Wav2VecPolicy</span><span class="p">],</span>
+            <span class="n">XLNetPreTrainedModel</span><span class="p">:</span> <span class="p">[</span><span class="n">XLNetPolicy</span><span class="p">],</span>
+            <span class="n">RetriBertPreTrainedModel</span><span class="p">:</span> <span class="p">[</span><span class="n">BertPolicy</span><span class="p">],</span>
+            <span class="n">CLIPPreTrainedModel</span><span class="p">:</span> <span class="p">[</span>
+                <span class="n">CLIPLayerPolicy</span><span class="p">,</span>
+                <span class="n">CLIPTextPolicy</span><span class="p">,</span>
+                <span class="n">CLIPVisionPolicy</span><span class="p">,</span>
+            <span class="p">],</span>
+            <span class="n">DetrPreTrainedModel</span><span class="p">:</span> <span class="p">[</span>
+                <span class="n">DetrEncoderPolicy</span><span class="p">,</span>
+                <span class="n">DetrDecoderPolicy</span><span class="p">,</span>
+            <span class="p">],</span>
+            <span class="n">ReformerPreTrainedModel</span><span class="p">:</span> <span class="p">[</span><span class="n">ReformerPolicy</span><span class="p">],</span>
+            <span class="n">LongformerPreTrainedModel</span><span class="p">:</span> <span class="p">[</span><span class="n">LongformerPolicy</span><span class="p">],</span>
+            <span class="n">RoFormerPreTrainedModel</span><span class="p">:</span> <span class="p">[</span><span class="n">RoformerPolicy</span><span class="p">],</span>
+            <span class="n">IBertPreTrainedModel</span><span class="p">:</span> <span class="p">[</span><span class="n">IBertPolicy</span><span class="p">],</span>
+            <span class="n">TapasPreTrainedModel</span><span class="p">:</span> <span class="p">[</span><span class="n">TapasPolicy</span><span class="p">],</span>
+            <span class="n">FunnelPreTrainedModel</span><span class="p">:</span> <span class="p">[</span><span class="n">FunnelPolicy</span><span class="p">],</span>
+            <span class="n">LayoutLMPreTrainedModel</span><span class="p">:</span> <span class="p">[</span><span class="n">LayoutLMPolicy</span><span class="p">],</span>
+            <span class="n">LEDPreTrainedModel</span><span class="p">:</span> <span class="p">[</span>
+                <span class="n">LEDEncoderPolicy</span><span class="p">,</span>
+                <span class="n">LEDDecoderPolicy</span><span class="p">,</span>
+            <span class="p">],</span>
+            <span class="n">ProphetNetPreTrainedModel</span><span class="p">:</span> <span class="p">[</span>
+                <span class="n">ProphetNetEncoderPolicy</span><span class="p">,</span>
+                <span class="n">ProphetNetDecoderPolicy</span><span class="p">,</span>
+            <span class="p">],</span>
+            <span class="n">VisualBertPreTrainedModel</span><span class="p">:</span> <span class="p">[</span><span class="n">VisualBertPolicy</span><span class="p">],</span>
+            <span class="n">Speech2TextPreTrainedModel</span><span class="p">:</span> <span class="p">[</span>
+                <span class="n">Speech2TextEncoderPolicy</span><span class="p">,</span>
+                <span class="n">Speech2TextDecoderPolicy</span><span class="p">,</span>
+            <span class="p">],</span>
+        <span class="p">}</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, TUNiB Inc.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

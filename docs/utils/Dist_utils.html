@@ -1,0 +1,318 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Distributed Utils &mdash; parallelformers 1.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Attribute Utils" href="Attr_utils.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> parallelformers
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">Intro</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../intro/INTRO.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/SUPPORTED_MODELS.html">Supported Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/POLICY.html">Policy Class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/FAQ.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/CONTRIBUTING.html">Contributing to Parallelformers</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Parallelize</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../parallelize/Parallelize.html">Parallelize</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Parallel modules</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../parallel/Engine.html">Parallel Engine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../parallel/Process.html">Parallel Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../parallel/Replacing.html">Tensor Replacer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../parallel/Slicing.html">Tensor Slicer</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Policy modules</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../policy/Auto.html">Auto Policy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../policy/Policy.html">Policy</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Utils</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Attr_utils.html">Attribute Utils</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Distributed Utils</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">parallelformers</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Distributed Utils</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/utils/Dist_utils.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-parallelformers.utils.dist_utils">
+<span id="distributed-utils"></span><h1>Distributed Utils<a class="headerlink" href="#module-parallelformers.utils.dist_utils" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="parallelformers.utils.dist_utils.ParallelModule">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">parallelformers.utils.dist_utils.</span></span><span class="sig-name descname"><span class="pre">ParallelModule</span></span><a class="reference internal" href="../_modules/parallelformers/utils/dist_utils.html#ParallelModule"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parallelformers.utils.dist_utils.ParallelModule" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
+<p>Parents of all parallel layer classes</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="parallelformers.utils.dist_utils.ParallelModule.allreduce">
+<span class="sig-name descname"><span class="pre">allreduce</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">outputs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/parallelformers/utils/dist_utils.html#ParallelModule.allreduce"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parallelformers.utils.dist_utils.ParallelModule.allreduce" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="parallelformers.utils.dist_utils.ParallelModule.training">
+<span class="sig-name descname"><span class="pre">training</span></span><em class="property"><span class="pre">:</span> <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a></em><a class="headerlink" href="#parallelformers.utils.dist_utils.ParallelModule.training" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="parallelformers.utils.dist_utils.AllReduceLinear">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">parallelformers.utils.dist_utils.</span></span><span class="sig-name descname"><span class="pre">AllReduceLinear</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">in_features</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_features</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">bias</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/parallelformers/utils/dist_utils.html#AllReduceLinear"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parallelformers.utils.dist_utils.AllReduceLinear" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.linear.Linear</span></code>, <a class="reference internal" href="#parallelformers.utils.dist_utils.ParallelModule" title="parallelformers.utils.dist_utils.ParallelModule"><code class="xref py py-class docutils literal notranslate"><span class="pre">parallelformers.utils.dist_utils.ParallelModule</span></code></a></p>
+<p>All-reduce linear layer</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="parallelformers.utils.dist_utils.AllReduceLinear.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (1.10.0a0+gitd4adc41 ))"><span class="pre">torch.Tensor</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (1.10.0a0+gitd4adc41 ))"><span class="pre">torch.Tensor</span></a></span></span><a class="reference internal" href="../_modules/parallelformers/utils/dist_utils.html#AllReduceLinear.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parallelformers.utils.dist_utils.AllReduceLinear.forward" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="parallelformers.utils.dist_utils.AllReduceLinear.in_features">
+<span class="sig-name descname"><span class="pre">in_features</span></span><em class="property"><span class="pre">:</span> <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a></em><a class="headerlink" href="#parallelformers.utils.dist_utils.AllReduceLinear.in_features" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="parallelformers.utils.dist_utils.AllReduceLinear.out_features">
+<span class="sig-name descname"><span class="pre">out_features</span></span><em class="property"><span class="pre">:</span> <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a></em><a class="headerlink" href="#parallelformers.utils.dist_utils.AllReduceLinear.out_features" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="parallelformers.utils.dist_utils.AllReduceLinear.weight">
+<span class="sig-name descname"><span class="pre">weight</span></span><em class="property"><span class="pre">:</span> <a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (1.10.0a0+gitd4adc41 ))"><span class="pre">torch.Tensor</span></a></em><a class="headerlink" href="#parallelformers.utils.dist_utils.AllReduceLinear.weight" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="parallelformers.utils.dist_utils.AllReduceConv1D">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">parallelformers.utils.dist_utils.</span></span><span class="sig-name descname"><span class="pre">AllReduceConv1D</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nx</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/parallelformers/utils/dist_utils.html#AllReduceConv1D"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parallelformers.utils.dist_utils.AllReduceConv1D" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">transformers.modeling_utils.Conv1D</span></code>, <a class="reference internal" href="#parallelformers.utils.dist_utils.ParallelModule" title="parallelformers.utils.dist_utils.ParallelModule"><code class="xref py py-class docutils literal notranslate"><span class="pre">parallelformers.utils.dist_utils.ParallelModule</span></code></a></p>
+<p>All-reduce convolution 1D layer for GPT models</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="parallelformers.utils.dist_utils.AllReduceConv1D.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/parallelformers/utils/dist_utils.html#AllReduceConv1D.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parallelformers.utils.dist_utils.AllReduceConv1D.forward" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="parallelformers.utils.dist_utils.AllReduceConv1D.training">
+<span class="sig-name descname"><span class="pre">training</span></span><em class="property"><span class="pre">:</span> <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a></em><a class="headerlink" href="#parallelformers.utils.dist_utils.AllReduceConv1D.training" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="parallelformers.utils.dist_utils.AllReduceQuantLinear">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">parallelformers.utils.dist_utils.</span></span><span class="sig-name descname"><span class="pre">AllReduceQuantLinear</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">in_features</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_features</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bias</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weight_bit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">8</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bias_bit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">32</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">per_channel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quant_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/parallelformers/utils/dist_utils.html#AllReduceQuantLinear"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parallelformers.utils.dist_utils.AllReduceQuantLinear" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">transformers.models.ibert.quant_modules.QuantLinear</span></code>, <a class="reference internal" href="#parallelformers.utils.dist_utils.ParallelModule" title="parallelformers.utils.dist_utils.ParallelModule"><code class="xref py py-class docutils literal notranslate"><span class="pre">parallelformers.utils.dist_utils.ParallelModule</span></code></a></p>
+<p>All-reduce quantized linear layer for IBert models</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="parallelformers.utils.dist_utils.AllReduceQuantLinear.allreduce_linear_layer">
+<span class="sig-name descname"><span class="pre">allreduce_linear_layer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weight</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bias</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/parallelformers/utils/dist_utils.html#AllReduceQuantLinear.allreduce_linear_layer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parallelformers.utils.dist_utils.AllReduceQuantLinear.allreduce_linear_layer" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parallelformers.utils.dist_utils.AllReduceQuantLinear.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prev_act_scaling_factor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/parallelformers/utils/dist_utils.html#AllReduceQuantLinear.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parallelformers.utils.dist_utils.AllReduceQuantLinear.forward" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="parallelformers.utils.dist_utils.AllReduceQuantLinear.training">
+<span class="sig-name descname"><span class="pre">training</span></span><em class="property"><span class="pre">:</span> <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a></em><a class="headerlink" href="#parallelformers.utils.dist_utils.AllReduceQuantLinear.training" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="Attr_utils.html" class="btn btn-neutral float-left" title="Attribute Utils" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, TUNiB Inc.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

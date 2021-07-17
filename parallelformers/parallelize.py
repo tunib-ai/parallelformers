@@ -29,11 +29,41 @@ from parallelformers.utils import rgetattr, rsetattr
 
 class parallelize(object):
     """
-    Parallelformers end-point object
+    Parallelformers end-point function
+
+    Args:
+        model (nn.Module): Huggingface pre-trained transformer model.
+        fp16: (bool): whether use FP16 or not.
+        num_gpus (int): number of GPU for parallelization.
+        master_addr (str): master process address for process communication (default='127.0.0.1')
+        master_port (int): master process port for process communication (default=29500)
+        backend (str): distributed backend (default='nccl')
+        verbose (bool): logging current gpu states (one of ['detail', 'simple', None]
+        init_method (str): multiprocess initialization method. (It is safe to set `init_method` to `spawn`.)
+        daemon (bool): whether make process daemon or not (default=True)
 
     Notes:
         We want to use this object as a simple function rather than a class.
         So we broke the PEP8 rules and set class names that start with a lowercase letter.
+
+    Examples:
+        >>> # 1. Import Huggingface and Parallelformers modules
+        >>> from transformers import AutoModelForCausalLM, AutoTokenizer
+        >>> from parallelformers import parallelize
+
+        >>> # 2. Create Huggingface model and tokenizer.
+        >>> model = AutoModelForCausalLM.from_pretrained("EleutherAI/gpt-neo-2.7B")
+        >>> tokenizer = AutoTokenizer.from_pretrained("EleutherAI/gpt-neo-2.7B")
+
+        >>> # 3. Parallelize using Parallelformers.
+        >>> parallelize(model, num_gpus=4, fp16=True)
+
+        >>> # 4. Do inference as usual.
+        >>> inputs = tokenizer("Parallelformers is", return_tensors="pt")
+        >>> outputs = model.generate(**inputs, num_beams=5, no_repeat_ngram_size=4)
+        >>> print(f"Output: {tokenizer.batch_decode(outputs)[0]}")
+        'Output: Parallelformers is an open-source library for parallel programming ...'
+
     """
 
     def __init__(
@@ -49,25 +79,7 @@ class parallelize(object):
         init_method="spawn",
         daemon: bool = True,
     ):
-        """
-        Constructor of parallelize class
-
-        Args:
-            model (nn.Module): Huggingface pre-trained transformer model.
-            fp16: (bool): whether use FP16 or not.
-            num_gpus (int): number of GPU for parallelization.
-            master_addr (str): master process address for process communication (default='127.0.0.1')
-            master_port (int): master process port for process communication (default=29500)
-            backend (str): distributed backend (default='nccl')
-            verbose (bool): logging current gpu states (one of ['detail', 'simple', None]
-            init_method (str): multiprocess initialization method.
-            daemon (bool): whether make process daemon or not (default=True)
-
-        Notes:
-            It is safe to set `init_method` to `spawn`.
-        """
-
-        self._init_environments(
+        self.init_environments(
             num_gpus,
             master_addr,
             master_port,
@@ -82,7 +94,7 @@ class parallelize(object):
             param.requires_grad = False
             param.detach()
 
-        self._preprocess_for_wav2vec(model)
+        self.preprocess_for_wav2vec(model)
         self.model = model.half() if fp16 else model
         self.model.eval()
         self.fp16 = fp16
@@ -106,17 +118,17 @@ class parallelize(object):
                 fn = getattr(self.model, attr)
                 self.orig_methods[attr] = fn
 
-        self._parallelize()
+        self.parallelize()
         for attr in hijack_methods:
             if hasattr(self.model, attr):
-                self._register_hijack_methods(attr)
+                self.register_hijack_methods(attr)
 
         self._memory_logger = ["memory_reserved", "memory_allocated", "memory_cached"]
 
         for attr in self._memory_logger:
-            self._register_memory_methods(attr)
+            self.register_memory_methods(attr)
 
-    def _preprocess_for_wav2vec(self, model: nn.Module):
+    def preprocess_for_wav2vec(self, model: nn.Module) -> None:
         """
         There is one missing parameter in the Huggingface Wav2Vec model,
         and the user loses control over this parameter, making parallelization impossible.
@@ -148,9 +160,9 @@ class parallelize(object):
                     rsetattr(layer_object, "conv.weight", detached_parameter)
 
                 else:
-                    self._preprocess_for_wav2vec(layer_object)
+                    self.preprocess_for_wav2vec(layer_object)
 
-    def _init_environments(
+    def init_environments(
         self,
         num_gpus: int,
         master_addr: str,
@@ -173,7 +185,7 @@ class parallelize(object):
             [str(i) for i in range(num_gpus)]
         )
 
-    def _register_hijack_methods(self, method: str) -> None:
+    def register_hijack_methods(self, method: str) -> None:
         """
         Intercept the flow by changing some methods (e.g. forward, generate, ...)
         in the model to `self.hijack` methods.
@@ -185,14 +197,14 @@ class parallelize(object):
         setattr(
             self.model,
             method,
-            lambda *inputs, **kwargs: self._hijack(
+            lambda *inputs, **kwargs: self.hijack(
                 inputs=inputs,
                 kwargs=kwargs,
                 func=method,
             ),
         )
 
-    def _register_memory_methods(self, method: str) -> None:
+    def register_memory_methods(self, method: str) -> None:
         """
         Add several methods to check GPU occupancy status of models located in other process.
 
@@ -203,14 +215,14 @@ class parallelize(object):
         setattr(
             self.model,
             method,
-            lambda: self._hijack(
+            lambda: self.hijack(
                 inputs="dummy",
                 kwargs={"dummy": "dummy"},
                 func=method,
             ),
         )
 
-    def _deparallelize(self) -> None:
+    def deparallelize(self) -> None:
         """
         Remove all methods registered in the model
         and join all GPU processes to main process.
@@ -231,7 +243,7 @@ class parallelize(object):
         torch.cuda.empty_cache()
 
     @torch.no_grad()
-    def _parallelize(self):
+    def parallelize(self) -> None:
         """Create processes for model parallelization and parallel inference"""
 
         try:
@@ -272,10 +284,10 @@ class parallelize(object):
 
         except BaseException:
             traceback.print_exc()
-            self._deparallelize()
+            self.deparallelize()
 
     @torch.no_grad()
-    def _hijack(
+    def hijack(
         self,
         inputs: Any,
         kwargs: Dict,
@@ -304,7 +316,7 @@ class parallelize(object):
                 # producer part
 
             if func in ["to", "cpu", "cuda"]:
-                self._deparallelize()
+                self.deparallelize()
 
                 if func == "cpu":
                     self.model = self.model.cpu(*inputs, **kwargs)
@@ -367,4 +379,4 @@ class parallelize(object):
 
         except BaseException:
             traceback.print_exc()
-            self._deparallelize()
+            self.deparallelize()

@@ -8,8 +8,6 @@
 $ make style
 ```
 
-<br>
-
 ## Quality check guide
 
 - `parallelformers` uses `flake8` to check for coding mistakes. You can run the checks with:

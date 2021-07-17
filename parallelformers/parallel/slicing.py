@@ -20,15 +20,14 @@ import torch.distributed as dist
 
 
 class TensorSlicer(object):
-    """An object that slices tensors into rows or columns as described in the Megatron LM paper"""
+    r"""
+    An object that slices tensors into rows or columns as described in the Megatron LM paper
+
+    Args:
+        mp_group (torch.distributed.ProcessGroupNCCL): Distributed group for model parallelism
+    """
 
     def __init__(self, mp_group) -> None:
-        """
-        Constructor of TensorSlicer
-
-        Args:
-            mp_group (torch.distributed.ProcessGroupNCCL): Distributed group for model parallelism
-        """
         if dist.is_initialized() and mp_group is not None:
             self.gpu_index = dist.get_rank(group=mp_group)
             self.world_size = int(os.getenv("WORLD_SIZE"))
@@ -36,7 +35,7 @@ class TensorSlicer(object):
             self.gpu_index = 0
             self.world_size = 1
 
-    def _slice_tensor(
+    def slice_tensor(
         self,
         tensor: Dict,
         attributes: Dict,
@@ -100,7 +99,7 @@ class TensorSlicer(object):
 
         return tuple(slices)
 
-    def _slice_weight_and_bias(
+    def slice_weight_and_bias(
         self,
         policy_inputs: Tuple,
         attributes: Tuple,
@@ -121,7 +120,7 @@ class TensorSlicer(object):
         """
         weight, bias = policy_inputs
         w_attr, b_attr = attributes
-        weight = self._slice_tensor(
+        weight = self.slice_tensor(
             weight,
             w_attr,
             dim,
@@ -129,7 +128,7 @@ class TensorSlicer(object):
         )
 
         if slice_bias:
-            bias = self._slice_tensor(
+            bias = self.slice_tensor(
                 bias,
                 b_attr,
                 0,
@@ -155,7 +154,7 @@ class TensorSlicer(object):
         Returns:
             Tuple: tuple of weights and biases
         """
-        return self._slice_weight_and_bias(
+        return self.slice_weight_and_bias(
             policy_inputs,
             attributes=attributes,
             dim=0,
@@ -177,7 +176,7 @@ class TensorSlicer(object):
         Returns:
             Tuple: tuple of weights and biases
         """
-        return self._slice_weight_and_bias(
+        return self.slice_weight_and_bias(
             policy_inputs,
             attributes=attributes,
             dim=1,

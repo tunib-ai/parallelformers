@@ -59,8 +59,21 @@ class ForkingPickler(pickle.Pickler):
 
 
 class ParallelProcess(mp.Process):
-    """
+    r"""
     Parallelization process class
+
+    Args:
+        model (nn.Module): model weights
+        fp16: (bool): whether use FP16 or not.
+        rank (int): current GPU rank
+        num_gpus (int): number of gpus for parallelization
+        inputs_queue (mp.Queue): input data queue from user
+        outputs_queue (mp.Queue): output data queue from model
+        parallel_mutex (mp.Event): mutex object to notify parallelization state
+        inference_mutex (mp.Event): mutex object to notify inference state
+        verbose (str): turn on gpu summary
+        backend (str): distributed process backend
+        custom_policies (Union[Policy, List[Policy]]): user customized policy objects
 
     Notes:
         ParallelProcess object handles below two tasks.
@@ -90,24 +103,8 @@ class ParallelProcess(mp.Process):
         backend: str,
         custom_policies: Union[Policy, List[Policy]],
     ) -> None:
-        """
-        Process of model parallelization and parallel inference
-
-        Args:
-            model (nn.Module): model weights
-            fp16: (bool): whether use FP16 or not.
-            rank (int): current GPU rank
-            num_gpus (int): number of gpus for parallelization
-            inputs_queue (mp.Queue): input data queue from user
-            outputs_queue (mp.Queue): output data queue from model
-            parallel_mutex (mp.Event): mutex object to notify parallelization state
-            inference_mutex (mp.Event): mutex object to notify inference state
-            verbose (str): turn on gpu summary
-            backend (str): distributed process backend
-            custom_policies (Union[Policy, List[Policy]]): user customized policy objects
-        """
         super().__init__()
-        self._set_environ(rank)
+        self.set_environ(rank)
         self.model = model
         self.fp16 = fp16
         self.num_gpus = num_gpus
@@ -119,7 +116,7 @@ class ParallelProcess(mp.Process):
         self.backend = backend
         self.custom_policies = custom_policies
 
-    def _set_environ(self, rank: int) -> None:
+    def set_environ(self, rank: int) -> None:
         """
         Set environment variable of current process
 
@@ -129,7 +126,7 @@ class ParallelProcess(mp.Process):
         os.environ["RANK"] = str(rank)
         os.environ["LOCAL_RANK"] = str(rank)
 
-    def _destroy(self) -> None:
+    def destroy(self) -> None:
         """Callback that executed when the process terminates."""
         for method in self._memory_logger:
             setattr(self.model, method, None)
@@ -137,7 +134,7 @@ class ParallelProcess(mp.Process):
         torch.cuda.empty_cache()
 
     @torch.no_grad()
-    def _inference(self, model: nn.Module) -> None:
+    def inference(self, model: nn.Module) -> None:
         """
         Handle inference state.
         If an inference request is occurred from main process,
@@ -263,9 +260,9 @@ class ParallelProcess(mp.Process):
                     print(torch.cuda.memory_summary())
                     print()
 
-            self._inference(self.model)
-            self._destroy()
+            self.inference(self.model)
+            self.destroy()
 
         except BaseException:
             traceback.print_exc()
-            self._destroy()
+            self.destroy()
