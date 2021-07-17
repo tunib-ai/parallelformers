@@ -251,7 +251,6 @@ They include vision models like `ViT`, `CLIP` and speech models like `Wav2Vec2` 
 * DistilBERT
 * DPR (=BERT)
 * ELECTRA
-* ELECTRA
 * FlauBERT (=XLM)
 * FSMT
 * Funnel Transformer
