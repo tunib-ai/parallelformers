@@ -26,7 +26,7 @@ class Layer:
 
     Attributes:
         weight and bias (str): the names of the weight and bias tensors, respectively. You can use the syntax
-            such as [ ] or . to the tensor names. `.` is used as accessors in common programming languages and `[ ]`
+            such as `[ ]` or `.` to the tensor names. `.` is used as accessors in common programming languages and `[ ]`
             is used to access elements in nn.ModuleList.
         n_fused (int): the number of areas used in fused layers. For example, GPT2 and TransfoXL have fused
             attention layers that consist of query, key and value. These layers should not be simply chunked by
