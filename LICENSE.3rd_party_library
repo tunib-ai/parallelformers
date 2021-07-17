@@ -1,0 +1,26 @@
+The Parallelformers repository and docs distributions bundle several libraries
+that are compatibly licensed. We list these here. Please, visit each OSS website for
+detailed license information.
+
+transformers
+    https://github.com/huggingface/transformers
+    Copyright 2018- The Hugging Face team. All rights reserved.
+    Apache License 2.0
+
+pytorch
+    https://github.com/pytorch/pytorch
+    Copyright (C) 2016-     Facebook, Inc            (Adam Paszke)
+    Copyright (C) 2014-     Facebook, Inc            (Soumith Chintala)
+    Copyright (C) 2011-2014 Idiap Research Institute (Ronan Collobert)
+    Copyright (C) 2012-2014 Deepmind Technologies    (Koray Kavukcuoglu)
+    Copyright (C) 2011-2012 NEC Laboratories America (Koray Kavukcuoglu)
+    Copyright (C) 2011-2013 NYU                      (Clement Farabet)
+    Copyright (C) 2006-2010 NEC Laboratories America (Ronan Collobert, Leon Bottou, Iain Melvin, Jason Weston)
+    Copyright (C) 2006      Idiap Research Institute (Samy Bengio)
+    Copyright (C) 2001-2004 Idiap Research Institute (Ronan Collobert, Samy Bengio, Johnny Mariethoz)
+    BSD 3-Clause License
+
+dacite
+  https://github.com/konradhalas/dacite
+  Copyright (c) 2018 Konrad Hałas
+  MIT License
