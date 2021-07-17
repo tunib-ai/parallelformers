@@ -2,7 +2,7 @@
   <img src="https://user-images.githubusercontent.com/38183241/125905410-1ee984a3-c5a9-4d8c-ba40-46fca740f514.png" width=380>
 </p>
 <p align="center">
-<a href="https://github.com/tunib-ai/parallelformers/releases"><img alt="GitHub release" src="https://img.shields.io/github/release/tunib-ai/parallelformers.svg" /></a> <a href="https://github.com/tunib-ai/parallelformers/blob/master/LICENSE"><img alt="Apache 2.0" src="https://img.shields.io/badge/license-Apache%202.0-blue.svg" /></a> <a href="https://github.com/tunib-ai/parallelformers/issues"><img alt="Issues" src="https://img.shields.io/github/issues/tunib-ai/parallelformers" /></a>
+<a href="https://github.com/tunib-ai/parallelformers/releases"><img alt="GitHub release" src="https://img.shields.io/github/release/tunib-ai/parallelformers.svg" /></a> <a href="https://github.com/tunib-ai/parallelformers/blob/master/LICENSE"><img alt="Apache 2.0" src="https://img.shields.io/badge/license-Apache%202.0-blue.svg"/></a> <a href="https://tunib-ai.github.io/parallelformers"><img alt="Docs" src="https://img.shields.io/badge/docs-passing-success.svg"/></a> <a href="https://github.com/tunib-ai/parallelformers/issues"><img alt="Issues" src="https://img.shields.io/github/issues/tunib-ai/parallelformers"/></a>
 
 </p>
 <br>
@@ -321,6 +321,9 @@ Refer to [FAQ.md](FAQ.md).
 
 ## Contributing
 Refer to [CONTRIBUTING.md](CONTRIBUTING.md)
+
+## Documentation
+For more detailed information, see [full documentation](https://tunib-ai.github.io/parallelformers/)
 
 ## Citation
 If you find this library useful, please consider citing:
