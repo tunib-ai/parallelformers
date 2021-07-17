@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 from contextlib import suppress
-from typing import Any, Dict, Iterable, List, Type, Union, Optional, Tuple
+from typing import Any, Dict, Iterable, List, Optional, Tuple, Type, Union
 
 import torch.nn as nn
 from torch import Size, Tensor
@@ -72,7 +72,7 @@ class TensorReplacer(object):
 
         return policy_cls
 
-    def replace_modules(self):
+    def replace_modules(self) -> None:
         """Replace original huggingface layers to Megtraon tensor sliced layers"""
         if self.policies is None:
             self.policies = self.auto_policy()
@@ -148,7 +148,11 @@ class TensorReplacer(object):
 
         return model
 
-    def preprocess(self, function_output: List[Layer], policy: Policy,) -> Tuple[Dict, Dict, Dict, Dict]:
+    def preprocess(
+        self,
+        function_output: List[Layer],
+        policy: Policy,
+    ) -> Tuple[Dict, Dict, Dict, Dict]:
         """
         Preprocess user's policy object to replace tensors
 
