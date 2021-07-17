@@ -208,25 +208,25 @@
 <h2>Q. Why are some models not supported?<a class="headerlink" href="#q-why-are-some-models-not-supported" title="Permalink to this headline">¶</a></h2>
 <p>There are several factors.
 Models are partly supported or not supported if they …</p>
-<ol class="simple">
+<ul class="simple">
 <li><p>have dynamically changed layers.</p></li>
-</ol>
+</ul>
 <p>We only can parallelize static layers because the parallelization process should be completed before the forward pass. But some models’ layers (e.g., <code class="docutils literal notranslate"><span class="pre">BigBird's</span> <span class="pre">Self-Attention</span></code>) can change dynamically during the forward pass and ends up to unparallelization. For example, <code class="docutils literal notranslate"><span class="pre">BigBirdPegasus</span></code> contains <code class="docutils literal notranslate"><span class="pre">BigBird's</span> <span class="pre">Self-Attention</span></code> in its encoder layers, so they can’t be parallelized.</p>
-<ol class="simple">
+<ul class="simple">
 <li><p>have convolutional layers.</p></li>
-</ol>
+</ul>
 <p>The convolution operation is not compatible with the tensor slicing method. For example, the attention layers of <code class="docutils literal notranslate"><span class="pre">ConvBERT</span></code> and all the layers of <code class="docutils literal notranslate"><span class="pre">SqueezeBERT</span></code> consist of convolutions, so they can not be parallelized. It is worth mentioning that although OpenAI’s <code class="docutils literal notranslate"><span class="pre">GPT1</span></code> and <code class="docutils literal notranslate"><span class="pre">GPT2</span></code> also use convolutional operations, they can be parallelized because they actually perform matrix multiplication-based operations rather than actual convolutional operations. (Check the implementations of the <code class="docutils literal notranslate"><span class="pre">transformers.modeling_utils.Conv1D</span></code> layer)</p>
-<ol class="simple">
+<ul class="simple">
 <li><p>have n-gram attention layers.</p></li>
-</ol>
+</ul>
 <p>We conducted several parallelization experiments with <code class="docutils literal notranslate"><span class="pre">ProphetNet</span></code> that adopts the N-gram attention mechanism. Unfortunately, we found the results after the parallelization are not the same as the original representations for some reason.</p>
-<ol class="simple">
+<ul class="simple">
 <li><p>adopt <code class="docutils literal notranslate"><span class="pre">EncoderDecoderModel</span></code>.</p></li>
-</ol>
+</ul>
 <p>The <code class="docutils literal notranslate"><span class="pre">EncoderDecoderModel</span></code> framework conflicts with our <code class="docutils literal notranslate"><span class="pre">AutoPolicy</span></code> mechanism. Therefore, when using the <code class="docutils literal notranslate"><span class="pre">EncoderDecoderModel</span></code> framework, you have to write your own custom policy objects.</p>
-<ol class="simple">
+<ul class="simple">
 <li><p>can not be serialized.</p></li>
-</ol>
+</ul>
 <p>When transfering a model to other processes, the model’s weights must be serialized. Thus, the models that are not serializable such as <code class="docutils literal notranslate"><span class="pre">RAG</span></code> are do not support parallelization.</p>
 </div>
 <div class="section" id="q-can-i-parallelize-multiple-models-on-same-gpus">
@@ -242,14 +242,14 @@ Models are partly supported or not supported if they …</p>
 <div class="section" id="q-can-i-use-it-on-docker">
 <h2>Q. Can I use it on Docker?<a class="headerlink" href="#q-can-i-use-it-on-docker" title="Permalink to this headline">¶</a></h2>
 <p>Yes, but please note the followings.</p>
-<ol class="simple">
+<ul class="simple">
 <li><p>Issue about multiple model parallelization in Docker containers</p></li>
-</ol>
+</ul>
 <p>In Docker containsers, you can’t parallelize multiple models on the same GPUs. For example, If you parallelize first model to GPUs <code class="docutils literal notranslate"><span class="pre">[0,</span> <span class="pre">1,</span> <span class="pre">2,</span> <span class="pre">3]</span></code>, you can not parallelize second model to GPUs <code class="docutils literal notranslate"><span class="pre">[0,</span> <span class="pre">1,</span> <span class="pre">2,</span> <span class="pre">3]</span></code> again.</p>
 <p>This is a bug between Docker and <code class="docutils literal notranslate"><span class="pre">multiprocessing</span></code> package in the Python. If you already have semophores on your main process and you are using the <code class="docutils literal notranslate"><span class="pre">multiprocessing</span></code> module with <code class="docutils literal notranslate"><span class="pre">spawn</span></code> method, Python try to check leaked semaphores (please check <a class="reference external" href="https://docs.python.org/3/library/multiprocessing.html#contexts-and-start-methods">here</a>), and this leaked semaphore checker makes some problems in the Docker containers. (you can check more details <a class="reference external" href="https://stackoverflow.com/questions/54650904/python-multiprocessing-crashes-docker-container">here</a>, And we are currently working to solve this issue)</p>
-<ol class="simple">
+<ul class="simple">
 <li><p>Issue about shared memory size</p></li>
-</ol>
+</ul>
 <p>In addition, you need to increase the shared memory size if you want to use distributed backed such as <code class="docutils literal notranslate"><span class="pre">nccl</span></code> in Docker containers (The default is set to 2mb, but it is too small)</p>
 </div>
 </div>
