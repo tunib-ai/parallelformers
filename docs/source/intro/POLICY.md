@@ -1,4 +1,5 @@
-## Policy Class
+Policy Class
+================================================================================
 In Parallelformers, every model has its own [`Policy`](https://github.com/tunib-ai/parallelformers/blob/2495f3dbb34b2dded81fa909b650f1fe788cc9ef/parallelformers/policies/base/policy.py#L43) classes that manage the overall parallelization configurations. (Check [this](https://github.com/tunib-ai/parallelformers/tree/docs/parallelformers/policies).) In most cases, you don't have to care about them because the policies of most Hugging Face models are pre-defined in the [`AutoPolicy`](parallelformers/policies/base/auto.py#L192) class. If you want to use a new model that is not in the `AutoPolicy`, you need to add a `Policy` class for yourself. Below are the basic syntax related to the `Policy` class.
 
 ### Layer Class

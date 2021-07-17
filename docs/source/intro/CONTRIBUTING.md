@@ -1,4 +1,6 @@
-# Contributing to Parallelformers
+
+Contributing to Parallelformers
+=====================================================
 
 ## Style check guide
 

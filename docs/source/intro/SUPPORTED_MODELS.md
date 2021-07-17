@@ -1,10 +1,10 @@
-## Supported Models
+Supported Models
+================================================================================
+
 Currently, most models in Huggingface transformers are supported. All layers in the models listed below can be parallelized.
 They include vision models like `ViT`, `CLIP` and speech models like `Wav2Vec2` as well as language models.
 
-<details>
-  <summary>Fully Supported Models</summary>
-
+### Fully Supported Models
 * ALBERT
 * BART
 * BARThez (=BERT)
@@ -67,27 +67,19 @@ They include vision models like `ViT`, `CLIP` and speech models like `Wav2Vec2` 
 * XLM-RoBERTa (=RoBERTa)
 * XLNet
 * XLSR-Wave2Vec2
-  
-</details>
 
 
-At present the following models are [partly supported or not supported](FAQ.md#q-why-are-some-models-not-supported). 
 
-<details> 
-  <summary>Partly Supported Models</summary>
+### Partly Supported or Unsupported Models
+At present the following models are [partly supported or not supported](https://github.com/tunib-ai/parallelformers/blob/main/FAQ.md#q-why-are-some-models-not-supported).
 
+### Partly Supported Models
 * BigBird 
 * BigBirdPegasus
 * ConvBERT
 * ProphetNet 
 * XLM-ProphetNet
 
-</details>
-
-<details> 
-  <summary>Unsupported Models</summary>
-
+### Unsupported Models
 * SqueezeBERT
 * RAG
-  
-</details>
