@@ -87,7 +87,7 @@ outputs = model.generate(
 print(f"Output: {tokenizer.batch_decode(outputs)[0]}")
 ``` 
 ```
-Output: Parallelformers is an open-docs library for parallel programming ...
+Output: Parallelformers is an open-source library for parallel programming ...
 ```
 
 #### 4. Deploy the model to the server as usual. 
