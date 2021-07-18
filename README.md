@@ -7,6 +7,7 @@
 </p>
 <br>
 
+
 - Parallelformers, which is based on [Megatron LM](https://github.com/NVIDIA/Megatron-LM), is designed to make model parallelization easier.
 - You can parallelize various models in [HuggingFace Transformers](https://github.com/huggingface/transformers) on multiple GPUs with **a single line of code.**
 - Currently, Parallelformers **only supports inference**. Training features are NOT included.
