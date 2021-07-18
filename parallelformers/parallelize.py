@@ -16,10 +16,11 @@ import os
 import traceback
 from contextlib import suppress
 from dataclasses import _is_dataclass_instance
+from typing import Any, Dict
 
 import torch
 import torch.multiprocessing as mp
-from dacite import Any, Config, Dict, from_dict
+from dacite import Config, from_dict
 from torch import nn
 from transformers.file_utils import ModelOutput
 
