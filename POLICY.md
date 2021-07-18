@@ -3,7 +3,7 @@ In Parallelformers, every model has its own [`Policy`](parallelformers/policies/
 
 ### `Layer` Class
 Most methods in the `Policy` class return a list of `Layer` classes. 
-For details of arguments of the Layer class, refer to the [docs](parallelformers/policies/base/policy.py).
+For details of arguments of the Layer class, refer to the [docs](https://tunib-ai.github.io/parallelformers/policy/Policy).
 
 ### `replace_arguments()`
 The following is a example of `replace_arguments()` method. To parallelize most models, some arguments like number of attention heads and hidden size must be changed. In this case, you can write changes of arguments in the `replace_arguemnts()` method. It will be applied when model start to parallelize.
