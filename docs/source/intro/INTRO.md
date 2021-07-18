@@ -206,5 +206,6 @@ GPU0 => 0.00GB
 
 GPU1 => 0.00GB
 ```
-#### 7. Write `Policy` class when new models are released.
+
+## Advanced Usage
 Refer to [POLICY.md](POLICY.md)
