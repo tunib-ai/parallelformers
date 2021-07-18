@@ -14,7 +14,7 @@
 <br>
 
 ### What's New:
-* July 18, 2021 [Released Parallelformers 1.0.](https://github.com/tunib-ai/parallelformers/releases/tag/1.0)
+* July 18, 2021 [Released Parallelformers 1.0](https://github.com/tunib-ai/parallelformers/releases/tag/1.0).
 
 ## Why Parallelformers?
 You can load a model that is too large for a single GPU. For example, using Parallelformers, you can load a model of 12GB on two 8 GB GPUs. In addition, you can save your precious money because usually multiple smaller size GPUs are less costly than a single larger size GPU.
