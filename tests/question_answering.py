@@ -17,16 +17,19 @@ import unittest
 from argparse import ArgumentParser
 
 import torch
-from transformers import AutoModelForSequenceClassification, AutoTokenizer
+from transformers import AutoModelForQuestionAnswering, AutoTokenizer
 
 
 from parallelformers import parallelize
 
 
-class TestForSequenceClassification(unittest.TestCase):
+class TestForQuestionAnswering(unittest.TestCase):
     @torch.no_grad()
-    def test_forward(self, model, tokens):
-        output = model(**tokens).logits
+    def test_forward(self, model, tokens, start_positions, end_positions):
+
+        output = model(
+            **tokens, start_positions=start_positions, end_positions=end_positions
+        ).start_logits
         print("forward:", output)
         print()
         assert isinstance(output, torch.Tensor)
@@ -44,7 +47,7 @@ if __name__ == "__main__":
     parser.add_argument("--use-pf", default=False, action="store_true")
     args = parser.parse_args()
 
-    model = AutoModelForSequenceClassification.from_pretrained(args.name).eval()
+    model = AutoModelForQuestionAnswering.from_pretrained(args.name).eval()
     tokenizer = AutoTokenizer.from_pretrained(args.name)
     print(f"Test Name: [{model.__class__.__name__}]-[{args.test_name}]\n")
 
@@ -56,10 +59,12 @@ if __name__ == "__main__":
         )
     ]
 
-    tokens = tokenizer(
-        "[CLS] I love you. [SEP] I like you. [SEP]",
-        return_tensors="pt",
-    )
+    question, text = "Who is Felix?", "He is the NLP engineer of TUNiB"
+    tokens = tokenizer(question, text, return_tensors="pt")
+    start_positions = torch.tensor([2])
+    end_positions = torch.tensor([6])
+
+    # import pdb;pdb.set_trace()
 
     if args.use_pf:
         parallelize(
@@ -76,12 +81,13 @@ if __name__ == "__main__":
         for t in tokens:
             if torch.is_tensor(tokens[t]):
                 tokens[t] = tokens[t].cuda()
-
+        start_positions = start_positions.cuda()
+        end_positions = end_positions.cuda()
         for i in gpus:
             print(f"GPU {i} alloc: {torch.cuda.memory_allocated(i)}")
             print(f"GPU {i} cached: { torch.cuda.memory_reserved(i)}")
             print()
 
-    test = TestForSequenceClassification()
-    test.test_forward(model, tokens)
+    test = TestForQuestionAnswering()
+    test.test_forward(model, tokens, start_positions, end_positions)
     print("=========================================================")

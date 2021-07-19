@@ -17,16 +17,16 @@ import unittest
 from argparse import ArgumentParser
 
 import torch
-from transformers import AutoModelForSequenceClassification, AutoTokenizer
+from transformers import AutoModelForTokenClassification, AutoTokenizer
 
 
 from parallelformers import parallelize
 
 
-class TestForSequenceClassification(unittest.TestCase):
+class TestForTokenClassification(unittest.TestCase):
     @torch.no_grad()
-    def test_forward(self, model, tokens):
-        output = model(**tokens).logits
+    def test_forward(self, model, tokens, labels):
+        output = model(**tokens, labels=labels).logits
         print("forward:", output)
         print()
         assert isinstance(output, torch.Tensor)
@@ -44,7 +44,7 @@ if __name__ == "__main__":
     parser.add_argument("--use-pf", default=False, action="store_true")
     args = parser.parse_args()
 
-    model = AutoModelForSequenceClassification.from_pretrained(args.name).eval()
+    model = AutoModelForTokenClassification.from_pretrained(args.name).eval()
     tokenizer = AutoTokenizer.from_pretrained(args.name)
     print(f"Test Name: [{model.__class__.__name__}]-[{args.test_name}]\n")
 
@@ -56,10 +56,8 @@ if __name__ == "__main__":
         )
     ]
 
-    tokens = tokenizer(
-        "[CLS] I love you. [SEP] I like you. [SEP]",
-        return_tensors="pt",
-    )
+    tokens = tokenizer("Hello, my dog is cute", return_tensors="pt")
+    labels = torch.tensor([1] * tokens["input_ids"].size(1)).unsqueeze(0)
 
     if args.use_pf:
         parallelize(
@@ -76,12 +74,13 @@ if __name__ == "__main__":
         for t in tokens:
             if torch.is_tensor(tokens[t]):
                 tokens[t] = tokens[t].cuda()
+        labels = labels.cuda()
 
         for i in gpus:
             print(f"GPU {i} alloc: {torch.cuda.memory_allocated(i)}")
             print(f"GPU {i} cached: { torch.cuda.memory_reserved(i)}")
             print()
 
-    test = TestForSequenceClassification()
-    test.test_forward(model, tokens)
+    test = TestForTokenClassification()
+    test.test_forward(model, tokens, labels)
     print("=========================================================")

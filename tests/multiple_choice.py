@@ -1,16 +1,16 @@
-# Copyright 2021 TUNiB inc.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-# http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
+# # Copyright 2021 TUNiB inc.
+# #
+# # Licensed under the Apache License, Version 2.0 (the "License");
+# # you may not use this file except in compliance with the License.
+# # You may obtain a copy of the License at
+# #
+# # http://www.apache.org/licenses/LICENSE-2.0
+# #
+# # Unless required by applicable law or agreed to in writing, software
+# # distributed under the License is distributed on an "AS IS" BASIS,
+# # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# # See the License for the specific language governing permissions and
+# # limitations under the License.
 
 import os
 import unittest
@@ -24,8 +24,10 @@ from parallelformers import parallelize
 
 class TestForMultipleChoice(unittest.TestCase):
     @torch.no_grad()
-    def test_forward(self, model, tokens):
-        output = model(**tokens).logits
+    def test_forward(self, model, tokens, labels):
+        output = model(
+            **{k: v.unsqueeze(0) for k, v in encoding.items()}, labels=labels
+        ).logits  # batch size is 1
         print("forward:", output)
         print()
         assert isinstance(output, torch.Tensor)
@@ -55,9 +57,15 @@ if __name__ == "__main__":
         )
     ]
 
-    tokens = tokenizer(
-        "Kevin is",
-        return_tensors="pt",
+    prompt = "In Italy, pizza served in formal settings, such as at a restaurant, is presented unsliced."
+    choice0 = "It is eaten with a fork and a knife."
+    choice1 = "It is eaten while held in the hand."
+    labels = torch.tensor(0).unsqueeze(
+        0
+    )  # choice0 is correct (according to Wikipedia ;)), batch size 1
+
+    encoding = tokenizer(
+        [[prompt, prompt], [choice0, choice1]], return_tensors="pt", padding=True
     )
 
     if args.use_pf:
@@ -72,15 +80,17 @@ if __name__ == "__main__":
             model = model.half()
 
         model = model.cuda()
-        for t in tokens:
-            if torch.is_tensor(tokens[t]):
-                tokens[t] = tokens[t].cuda()
-
+        # import pdb;pdb.set_trace()
+        for e in encoding:
+            if torch.is_tensor(encoding[e]):
+                encoding[e] = encoding[e].cuda()
+        labels = labels.cuda()
+        print(f"labels : ", labels)
         for i in gpus:
             print(f"GPU {i} alloc: {torch.cuda.memory_allocated(i)}")
             print(f"GPU {i} cached: { torch.cuda.memory_reserved(i)}")
             print()
 
     test = TestForMultipleChoice()
-    test.test_forward(model, tokens)
+    test.test_forward(model, encoding, labels)
     print("=========================================================")
