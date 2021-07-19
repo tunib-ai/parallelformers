@@ -24,7 +24,6 @@ class AlbertPolicy(Policy):
         return {
             # 1. reduce hidden size
             "attention.all_head_size": config.hidden_size // world_size,
-            "attention.hidden_size": config.hidden_size // world_size,
             # 2. reduce number of heads
             "attention.num_attention_heads": config.num_attention_heads // world_size,
         }
