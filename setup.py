@@ -15,7 +15,7 @@
 from setuptools import setup, find_packages
 
 install_requires = [
-    'transformers>=4.8',
+    'transformers>=4.2',
     'torch',
     "dacite",
     "dataclasses;python_version<'3.7'"
@@ -26,7 +26,7 @@ with open('README.md', encoding='utf-8') as f:
 
 setup(
     name='parallelformers',
-    version='1.0',
+    version='1.0.1',
     description=
     'An Efficient Model Parallelization Toolkit for Deployment',
     long_description=long_description,
