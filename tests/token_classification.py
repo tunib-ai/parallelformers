@@ -19,7 +19,6 @@ from argparse import ArgumentParser
 import torch
 from transformers import AutoModelForTokenClassification, AutoTokenizer
 
-
 from parallelformers import parallelize
 
 

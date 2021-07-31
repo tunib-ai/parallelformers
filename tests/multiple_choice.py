@@ -85,7 +85,7 @@ if __name__ == "__main__":
             if torch.is_tensor(encoding[e]):
                 encoding[e] = encoding[e].cuda()
         labels = labels.cuda()
-        print(f"labels : ", labels)
+        print("labels : ", labels)
         for i in gpus:
             print(f"GPU {i} alloc: {torch.cuda.memory_allocated(i)}")
             print(f"GPU {i} cached: { torch.cuda.memory_reserved(i)}")

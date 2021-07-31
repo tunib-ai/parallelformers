@@ -2,7 +2,7 @@
 
 ## Style check guide
 
-- `parallelformers` relies on `yapf` and `isort` to format its docs code consistently. After you make changes, format them with:
+- `parallelformers` relies on `black` and `isort` to format its docs code consistently. After you make changes, format them with:
 
 ```bash
 $ make style

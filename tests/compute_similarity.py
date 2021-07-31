@@ -11,7 +11,6 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
 """
 After test_XXX_model.sh, we can check similarity of layer-wise output hidden states.
 Parallelformers guarantees that the results before and after parallelization are almost 100% identical.
