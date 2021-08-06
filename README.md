@@ -346,4 +346,4 @@ If you find this library useful, please consider citing:
 ## LICENSE
 `Parallelformers` is licensed under the terms of the Apache License 2.0.
 
-Copyright 2021 TUNiB inc. https://www.tunib.ai. All Rights Reserved.
+Copyright 2021 TUNiB inc. http://www.tunib.ai. All Rights Reserved.
