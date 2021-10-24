@@ -48,12 +48,6 @@ parallelize(model_2, num_gpus=4, fp16=True, master_port=29501)
 ### Q. Can I use it on Docker?
 Yes, but please note the followings.
 
-1. Issue about multiple model parallelization in Docker containers
+I recently found out that ALL errors that occur in environments with limited resources such as docker containers are due to **shared memory size**. So, if you want to use larger models with parallelformers in docker containers, **INCREASE the size of shared memory by --shm_size ?gb.** the larger the shared memory size is required if you want to use larger model.
 
-In Docker containsers, you can't parallelize multiple models on the same GPUs. For example, If you parallelize first model to GPUs `[0, 1, 2, 3]`, you can not parallelize second model to GPUs `[0, 1, 2, 3]` again. 
 
-This is a bug between Docker and `multiprocessing` package in the Python. If you already have semophores on your main process and you are using the `multiprocessing` module with `spawn` method, Python try to check leaked semaphores (please check [here](https://docs.python.org/3/library/multiprocessing.html#contexts-and-start-methods)), and this leaked semaphore checker makes some problems in the Docker containers. (you can check more details [here](https://stackoverflow.com/questions/54650904/python-multiprocessing-crashes-docker-container), And we are currently working to solve this issue)
-
-2. Issue about shared memory size
-
-In addition, you need to increase the shared memory size if you want to use distributed backed such as `nccl` in Docker containers (The default is set to 2mb, but it is too small)
