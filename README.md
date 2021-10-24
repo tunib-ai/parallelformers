@@ -229,7 +229,7 @@ GPU1 => 0.00GB
 ```
 
 ## Are you getting some errors in docker container?
-I recently found out that ALL errors that occur in environments with limited resources such as docker containers are due to **shared memory size**. So, if you want to use larger models with parallelformers in docker containers, **INCREASE the size of shared memory by `--ipc=host`**. the larger shared memory size is required if you want to use larger model.
+I recently found out that ALL errors that occur in environments with limited resources such as docker containers are due to **shared memory size**. So, if you want to use larger models with parallelformers in docker containers, **INCREASE the size of shared memory by `--shm_size=?gb` or REMOVE the limitation of shared memory size by `--ipc=host`**. the larger shared memory size is required if you want to use larger model.
 
 ## Supported Models
 Currently, most models in Huggingface transformers are supported. All layers in the models listed below can be parallelized.
