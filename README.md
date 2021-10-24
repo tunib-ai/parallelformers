@@ -16,6 +16,7 @@
 
 
 ### What's New:
+* October 24, 2021 [Docker support](https://github.com/tunib-ai/parallelformers#are-you-getting-some-errors-in-docker-container).
 * July 28, 2021 [Released a tech blog](https://tunib.notion.site/TECH-2021-07-26-Parallelformers-Journey-to-deploying-big-models-32b19a599c38497abaad2a98727f6dc8).
 * July 18, 2021 [Released Parallelformers 1.0](https://github.com/tunib-ai/parallelformers/releases/tag/1.0).
 
