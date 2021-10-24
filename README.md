@@ -14,9 +14,12 @@
 
 <br>
 
+
 ### What's New:
 * July 28, 2021 [Released a tech blog](https://tunib.notion.site/TECH-2021-07-26-Parallelformers-Journey-to-deploying-big-models-32b19a599c38497abaad2a98727f6dc8).
 * July 18, 2021 [Released Parallelformers 1.0](https://github.com/tunib-ai/parallelformers/releases/tag/1.0).
+
+<br>
 
 ## Why Parallelformers?
 You can load a model that is too large for a single GPU. For example, using Parallelformers, you can load a model of 12GB on two 8 GB GPUs. In addition, you can save your precious money because usually multiple smaller size GPUs are less costly than a single larger size GPU.
@@ -224,6 +227,9 @@ GPU0 => 0.00GB
 
 GPU1 => 0.00GB
 ```
+
+## Are you getting some errors in docker container?
+I recently found out that ALL errors that occur in environments with limited resources such as docker containers are due to **shared memory size**. So, if you want to use larger models with parallelformers in docker containers, **INCREASE the size of shared memory by `--shm_size ?gb`**. the larger the shared memory size is required if you want to use larger model.
 
 ## Supported Models
 Currently, most models in Huggingface transformers are supported. All layers in the models listed below can be parallelized.
