@@ -1,5 +1,10 @@
 
 # FAQ
+### Q. Can I use it on Docker?
+Yes, but please note the followings.
+
+I recently found out that ALL errors that occur in environments with limited resources such as docker containers are due to **shared memory size**. So, if you want to use larger models with parallelformers in docker containers, **INCREASE the size of shared memory by --shm_size ?gb.** the larger shared memory size is required if you want to use larger model.
+
 ### Q. Why doesn't the GPU usage decrease by exactly _n_ times when I parallelize on _n_ GPUs?
 
 There are three possible reasons. 
@@ -44,10 +49,5 @@ Yes. The following is example of multiple model parallelization. Note it is help
 parallelize(model_1, num_gpus=4, fp16=True, master_port=29500)
 parallelize(model_2, num_gpus=4, fp16=True, master_port=29501)
 ```
-
-### Q. Can I use it on Docker?
-Yes, but please note the followings.
-
-I recently found out that ALL errors that occur in environments with limited resources such as docker containers are due to **shared memory size**. So, if you want to use larger models with parallelformers in docker containers, **INCREASE the size of shared memory by --shm_size ?gb.** the larger the shared memory size is required if you want to use larger model.
 
 
