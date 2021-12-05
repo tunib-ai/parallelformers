@@ -18,7 +18,6 @@ from typing import List, Union
 from torch import nn
 
 from parallelformers.policies.base import Policy
-from parallelformers.policies.gptj import GPTJPolicy
 
 
 class AutoPolicy:
@@ -641,9 +640,18 @@ class AutoPolicy:
 
         with suppress(Exception):
             from transformers.models.gptj.modeling_gptj import GPTJPreTrainedModel
+            from parallelformers.policies.gptj import GPTJPolicy
 
             self.builtin_policies[GPTJPreTrainedModel] = [
                 GPTJPolicy,
+            ]
+
+        with suppress(Exception):
+            from transformers.models.megatron_bert import MegatronBertPreTrainedModel
+            from parallelformers.policies.megtron_bert import MegatronBertPolicy
+
+            self.builtin_policies[MegatronBertPreTrainedModel] = [
+                MegatronBertPolicy,
             ]
 
     def get_policy(self, model: nn.Module) -> Union[List[Policy], None]:
