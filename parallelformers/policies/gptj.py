@@ -12,9 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from transformers.models.gpt_neo.modeling_gpt_neo import GPTNeoBlock
-from transformers.models.gptj.modeling_gptj import GPTJBlock
-
 from parallelformers.policies.base import Layer, Policy
 from parallelformers.utils import AllReduceLinear
 
@@ -26,7 +23,7 @@ class GPTJPolicy(Policy):
             # 1. reduce hidden size
             "attn.embed_dim": config.hidden_size // world_size,
             # 2. reduce number of heads
-            "attn.num_heads": config.n_head // world_size,
+            "attn.num_attention_heads": config.n_head // world_size,
         }
 
     @staticmethod
