@@ -639,7 +639,10 @@ class AutoPolicy:
             ]
 
         with suppress(Exception):
-            from transformers.models.gptj.modeling_gptj import GPTJPreTrainedModel
+            from transformers.models.gptj.modeling_gptj import (
+                GPTJPreTrainedModel,
+            )
+
             from parallelformers.policies.gptj import GPTJPolicy
 
             self.builtin_policies[GPTJPreTrainedModel] = [
@@ -647,8 +650,13 @@ class AutoPolicy:
             ]
 
         with suppress(Exception):
-            from transformers.models.megatron_bert import MegatronBertPreTrainedModel
-            from parallelformers.policies.megtron_bert import MegatronBertPolicy
+            from transformers.models.megatron_bert import (
+                MegatronBertPreTrainedModel,
+            )
+
+            from parallelformers.policies.megtron_bert import (
+                MegatronBertPolicy,
+            )
 
             self.builtin_policies[MegatronBertPreTrainedModel] = [
                 MegatronBertPolicy,

@@ -11,6 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+from transformers.models.gptj.modeling_gptj import GPTJBlock
 
 from parallelformers.policies.base import Layer, Policy
 from parallelformers.utils import AllReduceLinear

@@ -12,8 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from transformers.models.megatron_bert.modeling_megatron_bert import \
-    MegatronBertLayer
+from transformers.models.megatron_bert.modeling_megatron_bert import (
+    MegatronBertLayer,
+)
 
 from parallelformers.policies.base import Layer, Policy
 from parallelformers.transformers.modeling_bert import BertEmbeddings_
