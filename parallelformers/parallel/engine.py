@@ -66,10 +66,6 @@ class ParallelEngine(object):
         """
 
         super().__init__()
-        assert not next(
-            model.parameters()
-        ).is_cuda, "Model should be on CPU before parallelization. It is more memory-efficient."
-
         replacer = TensorReplacer(
             model=model,
             fp16=fp16,
