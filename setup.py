@@ -26,7 +26,7 @@ with open('README.md', encoding='utf-8') as f:
 
 setup(
     name='parallelformers',
-    version='1.1',
+    version='1.2',
     description=
     'An Efficient Model Parallelization Toolkit for Deployment',
     long_description=long_description,
