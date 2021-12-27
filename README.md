@@ -282,6 +282,7 @@ They include vision models like `ViT`, `CLIP` and speech models like `Wav2Vec2` 
 * OpenAI GPT
 * OpenAI GPT2
 * GPTNeo
+* GPTJ  
 * Hubert
 * Pegasus
 * PhoBERT (=RoBERTa)
