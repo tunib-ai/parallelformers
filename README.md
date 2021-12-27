@@ -354,7 +354,7 @@ If you find this library useful, please consider citing:
 This library is cited by:
 
 - [Few-Shot Bot: Prompt-Based Learning for Dialogue Systems, Madotto et al, 2021](https://arxiv.org/abs/2110.08118)
-- [AMMUS : A Survey of Transformer-based Pretrained Models in Natural Language Processing, Kalyan et al, 2021](https://arxiv.org/pdf/2108.05542)
+- [AMMUS : A Survey of Transformer-based Pretrained Models in Natural Language Processing, Kalyan et al, 2021](https://arxiv.org/abs/2108.05542)
 
 ## LICENSE
 `Parallelformers` is licensed under the terms of the Apache License 2.0.
