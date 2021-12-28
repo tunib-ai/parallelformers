@@ -150,13 +150,11 @@ class ParallelProcess(mp.Process):
             model (nn.Module): model weight
         """
         if self.seed is None:
-            seed = time()
+            seed = torch.tensor(int(time())).cuda()
+            dist.broadcast(seed, src=0)
+            seed = seed.item()
         else:
             seed = self.seed
-
-        seed = torch.tensor(int(seed)).cuda()
-        dist.broadcast(seed, src=0)
-        seed = seed.item()
 
         torch.manual_seed(seed)
         np.random.seed(seed)
