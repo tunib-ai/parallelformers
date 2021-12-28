@@ -32,7 +32,7 @@ setup(
     long_description=long_description,
     long_description_content_type='text/markdown',
     author='TUNiB',
-    author_email='kevin.ko@tunib.ai',
+    author_email='contact@tunib.ai',
     url='https://github.com/tunib-ai/parallelformers',
     install_requires=install_requires,
     packages=find_packages(),

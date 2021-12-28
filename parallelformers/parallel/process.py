@@ -18,10 +18,14 @@ import os
 import pickle
 import traceback
 import types
+from contextlib import suppress
 from dataclasses import _is_dataclass_instance, asdict
+from time import time
 from inspect import signature
 from typing import Any, List, Union
-
+import torch.distributed as dist
+import numpy as np
+import random
 import torch
 import torch.multiprocessing as mp
 import torch.nn as nn
@@ -102,6 +106,7 @@ class ParallelProcess(mp.Process):
         verbose: str,
         backend: str,
         custom_policies: Union[Policy, List[Policy]],
+        seed: int,
     ) -> None:
         super().__init__()
         self.set_environ(rank)
@@ -115,6 +120,7 @@ class ParallelProcess(mp.Process):
         self.verbose = verbose
         self.backend = backend
         self.custom_policies = custom_policies
+        self.seed = seed
 
     def set_environ(self, rank: int) -> None:
         """
@@ -143,6 +149,22 @@ class ParallelProcess(mp.Process):
         Args:
             model (nn.Module): model weight
         """
+        if self.seed is None:
+            seed = time()
+        else:
+            seed = self.seed
+
+        seed = torch.tensor(int(seed)).cuda()
+        dist.broadcast(seed, src=0)
+        seed = seed.item()
+
+        torch.manual_seed(seed)
+        np.random.seed(seed)
+        random.seed(seed)
+
+        with suppress():
+            torch.backends.cudnn.deterministic = True
+            torch.backends.cudnn.benchmark = False
 
         while True:
             try:
@@ -192,18 +214,6 @@ class ParallelProcess(mp.Process):
 
                 # producer part
                 self.outputs_queue.put(outputs)
-
-                # remove input tensors
-                for i in range(len(inputs_)):
-                    if torch.is_tensor(inputs_[i]):
-                        inputs_[i] = inputs_[i].cpu()
-
-                for k in kwargs_:
-                    if torch.is_tensor(kwargs_[k]):
-                        kwargs_[k] = kwargs_[k].cpu()
-
-                # release memory
-                del inputs, kwargs, fn_name, inputs_, kwargs_
 
             except BaseException:
                 traceback.print_exc()

@@ -39,7 +39,7 @@ class parallelize(object):
         master_addr (str): master process address for process communication (default='127.0.0.1')
         master_port (int): master process port for process communication (default=29500)
         backend (str): distributed backend (default='nccl')
-        verbose (bool): logging current gpu states (one of ['detail', 'simple', None]
+        verbose (str): logging current gpu states (one of ['detail', 'simple', None]
         init_method (str): multiprocess initialization method. (It is safe to set `init_method` to `spawn`.)
         daemon (bool): whether make process daemon or not (default=True)
 
@@ -79,6 +79,7 @@ class parallelize(object):
         verbose: str = None,
         init_method="spawn",
         daemon: bool = True,
+        seed: int = None
     ):
         self.init_environments(
             num_gpus,
@@ -103,6 +104,7 @@ class parallelize(object):
         self.backend = backend
         self.daemon = daemon
         self.verbose = verbose
+        self.seed = seed
         self.custom_policies = custom_policies
 
         self.processes = []
@@ -271,6 +273,7 @@ class parallelize(object):
                     backend=self.backend,
                     verbose=self.verbose,
                     custom_policies=self.custom_policies,
+                    seed=self.seed,
                 )
 
                 process.daemon = self.daemon

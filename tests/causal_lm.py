@@ -15,7 +15,8 @@
 import os
 import unittest
 from argparse import ArgumentParser
-
+import numpy as np
+import random
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
@@ -25,11 +26,14 @@ from parallelformers import parallelize
 class TestForCausalLM(unittest.TestCase):
     @torch.no_grad()
     def test_generation(self, model, tokens, tokenizer):
+
         output = model.generate(
             **tokens,
-            num_beams=1,
+            # num_beams=5,
             max_length=40,
             no_repeat_ngram_size=4,
+            do_sample=True,
+            top_p=0.7
         )
 
         gen = tokenizer.batch_decode(output)[0]
@@ -47,6 +51,7 @@ class TestForCausalLM(unittest.TestCase):
 
 if __name__ == "__main__":
     os.environ["TOKENIZERS_PARALLELISM"] = "true"
+    SEED = 42
 
     parser = ArgumentParser()
     parser.add_argument("--test-name", required=True, type=str)
@@ -74,12 +79,17 @@ if __name__ == "__main__":
         return_tensors="pt",
     )
 
+    torch.manual_seed(SEED)
+    np.random.seed(SEED)
+    random.seed(SEED)
+
     if args.use_pf:
         parallelize(
             model,
             num_gpus=args.gpu_to + 1,
             fp16=args.fp16,
             verbose="simple",
+            seed=SEED,
         )
     else:
         if args.fp16:

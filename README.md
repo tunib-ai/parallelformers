@@ -48,8 +48,8 @@ from parallelformers import parallelize
 parallelize(model, num_gpus=2, fp16=True, verbose='detail')
 ```
 
-Since `nvidia-smi` shows the reserved cache area, it is difficult to check the exact allocated memory. To check the allocated memory state well, **you can set the verbose option as `'detail'` or `'simple'`.** (default is `None`)
-
+Since `nvidia-smi` shows the reserved cache area, it is difficult to check the exact allocated memory. To check the allocated memory state well, **you can set the verbose option as `'detail'` or `'simple'`.** (default is `None`).
+If you want to set a random seed value, input the seed value using `parallelize(..., seed=YOUR_SEED)`.
 ```
 |===========================================================================|
 |                  PyTorch CUDA memory summary, device ID 0                 |
