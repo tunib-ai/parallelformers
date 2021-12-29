@@ -13,10 +13,11 @@
 # limitations under the License.
 
 import os
+import random
 import unittest
 from argparse import ArgumentParser
+
 import numpy as np
-import random
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
@@ -33,7 +34,7 @@ class TestForCausalLM(unittest.TestCase):
             max_length=40,
             no_repeat_ngram_size=4,
             do_sample=True,
-            top_p=0.7
+            top_p=0.7,
         )
 
         gen = tokenizer.batch_decode(output)[0]

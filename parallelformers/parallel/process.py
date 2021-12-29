@@ -16,17 +16,18 @@ import copyreg
 import io
 import os
 import pickle
+import random
 import traceback
 import types
 from contextlib import suppress
 from dataclasses import _is_dataclass_instance, asdict
-from time import time
 from inspect import signature
+from time import time
 from typing import Any, List, Union
-import torch.distributed as dist
+
 import numpy as np
-import random
 import torch
+import torch.distributed as dist
 import torch.multiprocessing as mp
 import torch.nn as nn
 from transformers.file_utils import ModelOutput

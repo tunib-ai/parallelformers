@@ -77,9 +77,9 @@ class parallelize(object):
         master_port: int = 29500,
         backend="nccl",
         verbose: str = None,
-        init_method="spawn",
+        init_method: str = "spawn",
         daemon: bool = True,
-        seed: int = None
+        seed: int = None,
     ):
         self.init_environments(
             num_gpus,
