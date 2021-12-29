@@ -290,6 +290,23 @@ class parallelize(object):
             traceback.print_exc()
             self.deparallelize()
 
+    @staticmethod
+    def _deallocate(item):
+        if torch.is_tensor(item) and item.is_cuda:
+            item.cpu()
+
+        elif isinstance(item, list) or isinstance(item, tuple):
+            for i in item:
+                if torch.is_tensor(i) and i.is_cuda:
+                    i.cpu()
+
+        elif isinstance(item, dict):
+            for i in item:
+                if torch.is_tensor(item[i]) and item[i].is_cuda:
+                    item[i].cpu()
+
+        return item
+
     @torch.no_grad()
     def hijack(
         self,
@@ -314,6 +331,11 @@ class parallelize(object):
                 self.inference_mutexes,
                 self.inputs_queues,
             ):
+                inputs = self._deallocate(inputs)
+
+                for k in kwargs:
+                    kwargs[k] = self._deallocate(kwargs[k])
+
                 i_queue.put((inputs, kwargs, func))
                 i_mutex.set()
                 # producer part
