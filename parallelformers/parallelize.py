@@ -309,7 +309,6 @@ class parallelize(object):
         Returns:
             Any: outputs of model
         """
-
         try:
             for i_mutex, i_queue in zip(
                 self.inference_mutexes,
@@ -334,31 +333,8 @@ class parallelize(object):
                 outputs = []
                 for o_queue in self.outputs_queues:
                     output = o_queue.get()
+                    outputs.append(output)
                     # consumer part
-
-                    if isinstance(output, ModelOutput) or _is_dataclass_instance(
-                        output
-                    ):
-                        _output = output
-                    elif isinstance(output, tuple) or isinstance(output, list):
-                        _output = []
-                        for o in output:
-                            if torch.is_tensor(o):
-                                o = o.clone().to("cpu")
-                            _output.append(o)
-                    elif isinstance(output, dict):
-                        _output = {}
-                        for k, v in output.items():
-                            if torch.is_tensor(v):
-                                v = v.clone().to("cpu")
-                            _output[k] = v
-                    else:
-                        _output = output
-                        if torch.is_tensor(output):
-                            _output = output.clone().to("cpu")
-
-                    del output
-                    outputs.append(_output)
 
                 if func in self._memory_logger:
                     final_output = dict(outputs)
