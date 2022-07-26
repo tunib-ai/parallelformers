@@ -662,6 +662,17 @@ class AutoPolicy:
                 MegatronBertPolicy,
             ]
 
+        with suppress(Exception):
+            from transformers.models.opt.modeling_opt import (
+                OPTPreTrainedModel,
+            )
+
+            from parallelformers.policies.opt import OPTPolicy
+
+            self.builtin_policies[OPTPreTrainedModel] = [
+                OPTPolicy,
+            ]
+
     def get_policy(self, model: nn.Module) -> Union[List[Policy], None]:
         """
         Find appropriate policies for the current model
