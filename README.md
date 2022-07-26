@@ -281,6 +281,7 @@ They include vision models like `ViT`, `CLIP` and speech models like `Wav2Vec2` 
 * Megatron GPT2 (=GPT2)
 * OpenAI GPT
 * OpenAI GPT2
+* OPT
 * GPTNeo
 * GPTJ  
 * Hubert
