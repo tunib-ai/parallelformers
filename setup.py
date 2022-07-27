@@ -18,6 +18,7 @@ install_requires = [
     'transformers>=4.2',
     'torch',
     "dacite",
+    "multiprocess",
     "dataclasses;python_version<'3.7'"
 ]
 
@@ -26,7 +27,7 @@ with open('README.md', encoding='utf-8') as f:
 
 setup(
     name='parallelformers',
-    version='1.2.5',
+    version='1.2.6',
     description=
     'An Efficient Model Parallelization Toolkit for Deployment',
     long_description=long_description,
