@@ -15,14 +15,11 @@
 import os
 import traceback
 from contextlib import suppress
-from dataclasses import _is_dataclass_instance
 from typing import Any, Dict
 
 import torch
 import torch.multiprocessing as mp
-from dacite import Config, from_dict
 from torch import nn
-from transformers.file_utils import ModelOutput
 
 from parallelformers.parallel.process import ParallelProcess
 from parallelformers.utils import rgetattr, rsetattr
@@ -362,20 +359,6 @@ class parallelize(object):
                     final_output = dict(outputs)
                 else:
                     final_output = outputs[0]
-
-                # non-picklable object to original dataclass
-                if (
-                    isinstance(final_output, dict)
-                    and "orig_dataclass_type" in final_output
-                ):
-                    orig_dataclass_type = final_output["orig_dataclass_type"]
-                    del final_output["orig_dataclass_type"]
-
-                    final_output = from_dict(
-                        orig_dataclass_type,
-                        final_output,
-                        config=Config(check_types=False),
-                    )
 
                 return final_output
 
