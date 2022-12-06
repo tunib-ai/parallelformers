@@ -12,55 +12,23 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import copyreg
-import io
 import os
-import pickle
 import random
 import traceback
 import types
 from contextlib import suppress
-from dataclasses import _is_dataclass_instance, asdict
 from inspect import signature
 from time import time
-from typing import Any, List, Union
+from typing import List, Union
 
 import numpy as np
 import torch
 import torch.distributed as dist
 import torch.multiprocessing as mp
 import torch.nn as nn
-from transformers.file_utils import ModelOutput
 
 from parallelformers.parallel.engine import ParallelEngine
 from parallelformers.policies.base import Policy
-
-
-class ForkingPickler(pickle.Pickler):
-    """Copy of ForkingPickler of `multiprocessing` module"""
-
-    _extra_reducers = {}
-    _copyreg_dispatch_table = copyreg.dispatch_table
-
-    def __init__(self, *args):
-        """Constructor of ForkingPickler"""
-        super().__init__(*args)
-        self.dispatch_table = self._copyreg_dispatch_table.copy()
-        self.dispatch_table.update(self._extra_reducers)
-
-    @classmethod
-    def register(cls, type, reduce) -> None:
-        """Register reduce methods for multiprocessing"""
-        cls._extra_reducers[type] = reduce
-
-    @classmethod
-    def dumps(cls, obj: Any, protocol=None) -> memoryview:
-        """Dump objects for multiprocessing"""
-        buf = io.BytesIO()
-        cls(buf, protocol).dump(obj)
-        return buf.getbuffer()
-
-    loads = pickle.loads
 
 
 class ParallelProcess(mp.Process):
@@ -205,9 +173,6 @@ class ParallelProcess(mp.Process):
                 if fn_name in ["cuda", "cpu", "to"]:
                     break
 
-                # check picklable
-                outputs = self.check_picklable(outputs)
-
                 if isinstance(outputs, types.GeneratorType):
                     outputs = list(outputs)
 
@@ -217,33 +182,6 @@ class ParallelProcess(mp.Process):
             except BaseException:
                 traceback.print_exc()
                 break
-
-    def check_picklable(self, obj: Any) -> Any:
-        """
-        Check object is picklable.
-        If it is not picklable, this method will change the dataclass instance to a dictionary.
-        It is is not dataclass raise exception.
-
-        Args:
-            obj (Any): object to check picklable
-
-        Returns:
-            Any: picklable object
-        """
-        try:
-            pickle.loads(ForkingPickler.dumps(obj).tobytes())
-        except BaseException:
-            if _is_dataclass_instance(obj) or isinstance(obj, ModelOutput):
-                _obj = asdict(obj)
-                _obj["orig_dataclass_type"] = obj.__class__
-                obj = _obj
-            else:
-                raise Exception(
-                    f"Type '{obj.__class__}' can't be pickled. "
-                    f"Please check type of model output !"
-                )
-
-        return obj
 
     @torch.no_grad()
     def run(self) -> None:
