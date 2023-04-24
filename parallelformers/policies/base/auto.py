@@ -648,6 +648,17 @@ class AutoPolicy:
             self.builtin_policies[GPTJPreTrainedModel] = [
                 GPTJPolicy,
             ]
+            
+        with suppress(Exception):
+            from transformers.models.gpt_neox.modeling_gpt_neox import (
+                GPTNeoXPreTrainedModel,
+            )
+
+            from parallelformers.policies.gpt_neox import GPTNeoxPolicy
+
+            self.builtin_policies[GPTNeoxPreTrainedModel] = [
+                GPTNeoxPolicy,
+            ]
 
         with suppress(Exception):
             from transformers.models.megatron_bert import (
